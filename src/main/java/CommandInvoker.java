@@ -24,25 +24,27 @@ public class CommandInvoker {
         commandMap.put("!listchannels", new ListChannelsCommand());
     }
 
-    public void invokeCommand(TextMessageEvent e){
+    public void invokeCommand(TextMessageEvent e) {
         //Check whether the TextEvent originated from the Bot itself or not
-        if (ts3Api.whoAmI().getId() == e.getInvokerId()){
+        if (ts3Api.whoAmI().getId() == e.getInvokerId()) {
             return;
         }
 
         //Check if client is in an Admin group
         boolean isAdmin = false;
-        for(Integer serverGroupId: botConfiguration.getAdminGroupIds()){
-            if (ts3Api.getClientByUId(e.getInvokerUniqueId()).isInServerGroup(serverGroupId)){
+        for (Integer serverGroupId : botConfiguration.getAdminGroupIds()) {
+            if (ts3Api.getClientByUId(e.getInvokerUniqueId()).isInServerGroup(serverGroupId)) {
                 isAdmin = true;
             }
         }
-        if (!isAdmin){ return; }
+        if (!isAdmin) {
+            return;
+        }
 
         try {
             this.commandMap.get(e.getMessage().split(" ")[0]).execute(e, this.ts3Api);
         } catch (Exception ex) {
-            ts3Api.sendPrivateMessage(e.getInvokerId(), "Invalid command: "+e.getMessage());
+            ts3Api.sendPrivateMessage(e.getInvokerId(), "Invalid command: " + e.getMessage());
         }
     }
 }

@@ -12,7 +12,7 @@ public class ListChannelsCommand implements Command {
         List<Channel> channels = ts3Api.getChannels();
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Channel channel : channels){
+        for (Channel channel : channels) {
             stringBuilder.append("Name: ").append(channel.getName()).append("\n");
             stringBuilder.append("Id: ").append(channel.getId()).append("\n");
             stringBuilder.append("\n");
