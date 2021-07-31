@@ -15,7 +15,7 @@ public class Main {
 
         final TS3Api ts3Api = ts3Query.getApi();
 
-        final CommandInvoker commandInvoker = new CommandInvoker(ts3Api);
+        final CommandInvoker commandInvoker = new CommandInvoker(ts3Api, botConfiguration);
 
         ts3Api.login(botConfiguration.getQueryUsername(), botConfiguration.getQueryPassword());
         ts3Api.selectVirtualServerById(botConfiguration.getVirtualServerId());
