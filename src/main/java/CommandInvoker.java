@@ -1,7 +1,4 @@
-import Commands.BothelpCommand;
-import Commands.Command;
-import Commands.ListChannelsCommand;
-import Commands.ListClientsCommand;
+import Commands.*;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
@@ -22,6 +19,7 @@ public class CommandInvoker {
         commandMap.put("!bothelp", new BothelpCommand());
         commandMap.put("!listclients", new ListClientsCommand());
         commandMap.put("!listchannels", new ListChannelsCommand());
+        commandMap.put("!msgall", new MessageAllCommand());
     }
 
     public void invokeCommand(TextMessageEvent e) {
