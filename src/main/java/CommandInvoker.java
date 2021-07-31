@@ -2,6 +2,7 @@ import Commands.*;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,11 @@ public class CommandInvoker {
             }
         }
         if (!isAdmin) {
+            ts3Api.sendPrivateMessage(e.getInvokerId(), """
+                    You're not an Admin!
+                    Valid Admin groups are the following:
+                    
+                    """+ Arrays.toString(botConfiguration.getAdminGroupIds()));
             return;
         }
 
