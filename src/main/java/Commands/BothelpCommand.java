@@ -13,6 +13,7 @@ public class BothelpCommand implements Command {
                 !bothelp - Displays this message
                 
                 !listclients - Prints a list of currently connected clients
+                !listchannels - Prints a list of channels on this server
                 """);
     }
 }
