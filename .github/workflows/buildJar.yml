@@ -5,7 +5,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -20,5 +20,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Nightly Build
-          path: ts3_query_bot.jar
+          path: /home/runner/ts3_query_bot.jar
           retention-days: 5

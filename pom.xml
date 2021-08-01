@@ -54,8 +54,6 @@
                             <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
-                    <outputDirectory>/home/runner/work/TS3-Query-Bot</outputDirectory>
-                    <finalName>ts3_query_bot.jar</finalName>
                 </configuration>
             </plugin>
             <plugin>
@@ -79,6 +77,8 @@
                                     </excludes>
                                 </filter>
                             </filters>
+                            <finalName>ts3_query_bot.jar</finalName>
+                            <outputDirectory>/home/runner</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
