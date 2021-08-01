@@ -77,7 +77,6 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <finalName>ts3_query_bot.jar</finalName>
                             <outputDirectory>/home/runner</outputDirectory>
                         </configuration>
                     </execution>
