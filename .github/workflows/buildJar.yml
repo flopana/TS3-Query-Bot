@@ -14,10 +14,8 @@ jobs:
         run: |
           wget https://corretto.aws/downloads/latest/amazon-corretto-16-x64-linux-jdk.deb
           sudo dpkg -i amazon-corretto-16-x64-linux-jdk.deb
-          export JAVA_HOME=/usr/lib/jvm/java-16-amazon-corretto
-          echo $JAVA_HOME
           java -version
       - name: Set up Maven
         run: sudo apt install maven -y
       - name: Build with Maven
-        run: mvn package
+        run: export JAVA_HOME=/usr/lib/jvm/java-16-amazon-corretto && mvn package
