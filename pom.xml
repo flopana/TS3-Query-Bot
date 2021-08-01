@@ -77,7 +77,6 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <outputDirectory>/home/runner</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
