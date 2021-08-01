@@ -2,6 +2,11 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.event.*;
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,8 +27,9 @@ public class Main {
         ts3Api.setNickname(botConfiguration.getBotName());
 
         //Only for development
-        ts3Api.sendPrivateMessage(44, "hi");
-//        List<Client> clients = ts3Api.getClients();
+//        ts3Api.sendPrivateMessage(100, "hi");
+        ts3Api.sendPrivateMessage(91, "hi");
+        List<Client> clients = ts3Api.getClients();
 
         ts3Api.registerAllEvents();
         ts3Api.addTS3Listeners(new TS3Listener() {
@@ -88,5 +94,16 @@ public class Main {
             }
         });
 
+        //Shutdown hook
+        var shutdownListener = new Thread(() -> {
+            byte[] array = new byte[32]; // length is bounded by 7
+            new Random().nextBytes(array);
+            String generatedString = new String(array, StandardCharsets.UTF_8);
+
+            System.out.println("Shutting down.");
+            ts3Api.setNickname(generatedString);
+            ts3Query.exit();
+        });
+        Runtime.getRuntime().addShutdownHook(shutdownListener);
     }
 }
