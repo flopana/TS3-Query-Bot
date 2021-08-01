@@ -20,6 +20,7 @@ public class CommandInvoker {
         commandMap.put("!bothelp", new BothelpCommand());
         commandMap.put("!listclients", new ListClientsCommand());
         commandMap.put("!listchannels", new ListChannelsCommand());
+        commandMap.put("!listservergroups", new ListServerGroupsCommand());
         commandMap.put("!msgall", new MessageAllCommand());
     }
 

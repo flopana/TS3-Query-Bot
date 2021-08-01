@@ -14,6 +14,7 @@ public class BothelpCommand implements Command {
                                 
                 !listclients - Prints a list of currently connected clients
                 !listchannels - Prints a list of channels on this server
+                !listservergroups - Prints a list of Servergroups
                 
                 !msgall <string> - Sends a message to all users.
                 """);
