@@ -16,6 +16,6 @@ jobs:
           sudo dpkg -i amazon-corretto-16-x64-linux-jdk.deb
           java -version
       - name: Set up Maven
-        run: sudo apt install maven
+        run: sudo apt install maven -y
       - name: Build with Maven
         run: mvn -B package --file pom.xml
