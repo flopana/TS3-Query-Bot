@@ -11,14 +11,34 @@ public class BotConfiguration {
     private final String serverIp;
     private final int virtualServerId;
     private final int[] adminGroupIds;
+    private final Function[] functions;
 
-    public BotConfiguration(String botName, String queryUsername, String queryPassword, String serverIp, int virtualServerId, int[] adminGroupIds) {
+    static class Function {
+        String type;
+        String configPath;
+
+        public Function(String type, String configPath) {
+            this.type = type;
+            this.configPath = configPath;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getConfigPath() {
+            return configPath;
+        }
+    }
+
+    public BotConfiguration(String botName, String queryUsername, String queryPassword, String serverIp, int virtualServerId, int[] adminGroupIds, Function[] functions) {
         this.botName = botName;
         this.queryUsername = queryUsername;
         this.queryPassword = queryPassword;
         this.serverIp = serverIp;
         this.virtualServerId = virtualServerId;
         this.adminGroupIds = adminGroupIds;
+        this.functions = functions;
     }
 
     public static BotConfiguration loadAndGetConfig() {
@@ -55,5 +75,9 @@ public class BotConfiguration {
 
     public int[] getAdminGroupIds() {
         return adminGroupIds;
+    }
+
+    public Function[] getFunctions() {
+        return functions;
     }
 }

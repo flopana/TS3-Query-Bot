@@ -2,6 +2,7 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.event.*;
+import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import java.nio.charset.StandardCharsets;
@@ -20,15 +21,31 @@ public class Main {
 
         final TS3Api ts3Api = ts3Query.getApi();
 
-        final CommandInvoker commandInvoker = new CommandInvoker(ts3Api, botConfiguration);
-
         ts3Api.login(botConfiguration.getQueryUsername(), botConfiguration.getQueryPassword());
         ts3Api.selectVirtualServerById(botConfiguration.getVirtualServerId());
-        ts3Api.setNickname(botConfiguration.getBotName());
+
+        /*
+         * For some reason the Nickname sometimes is still on some table in TS3 and thus the bot is unable to set
+         * its nickname. The bot will then set a random name and tries again to set its configured name.
+         */
+        try {
+            ts3Api.setNickname(botConfiguration.getBotName());
+        } catch (TS3CommandFailedException e) {
+            byte[] array = new byte[32];
+            new Random().nextBytes(array);
+            String generatedString = new String(array, StandardCharsets.UTF_8);
+            ts3Api.setNickname(generatedString);
+            ts3Api.setNickname(botConfiguration.getBotName());
+        }
+
+        final CommandInvoker commandInvoker = new CommandInvoker(ts3Api, botConfiguration);
+
+        final FunctionInvoker functionInvoker= new FunctionInvoker(ts3Api, botConfiguration);
+        functionInvoker.registerFunctions();
 
         //Only for development
 //        ts3Api.sendPrivateMessage(100, "hi");
-        ts3Api.sendPrivateMessage(91, "hi");
+//        ts3Api.sendPrivateMessage(56, "hi");
         List<Client> clients = ts3Api.getClients();
 
         ts3Api.registerAllEvents();
@@ -96,12 +113,7 @@ public class Main {
 
         //Shutdown hook
         var shutdownListener = new Thread(() -> {
-            byte[] array = new byte[32]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, StandardCharsets.UTF_8);
-
             System.out.println("Shutting down.");
-            ts3Api.setNickname(generatedString);
             ts3Query.exit();
         });
         Runtime.getRuntime().addShutdownHook(shutdownListener);

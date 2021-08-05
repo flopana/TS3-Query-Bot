@@ -1,0 +1,5 @@
+{
+  "_comment": "Sends a message to a specific servergroup on join",
+  "serverGroupIdToNotify": 9,
+  "message": "Hallo World"
+}
