@@ -21,6 +21,6 @@ jobs:
         with:
           name: Nightly Build
           path: |
-          /home/runner/ts3_query_bot.jar
-          /home/runner/work/TS3-Query-Bot/*.json
+            /home/runner/ts3_query_bot.jar
+            /home/runner/work/TS3-Query-Bot/*.json
           retention-days: 30
