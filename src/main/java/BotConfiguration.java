@@ -45,7 +45,7 @@ public class BotConfiguration {
         Gson gson = new Gson();
         String configJson = "";
         try {
-            configJson = Files.readString(Paths.get("config.json"));
+            configJson = Files.readString(Paths.get("configs/config.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,6 @@
+{
+  "idleTimeoutMillis": 7200000,
+  "serverGroupsToIgnore": [9],
+  "channelsToIgnore": [57, 58],
+  "channelToMoveTo": 57
+}

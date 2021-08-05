@@ -13,7 +13,7 @@ public class ServerGroupNotifier extends ConfigurationReader implements Function
     @Override
     public void register(TS3Api ts3Api, String path) {
 
-        ServerGroupNotifierConfiguration conf = getConfig(ServerGroupNotifierConfiguration.class, path);
+        final ServerGroupNotifierConfiguration conf = getConfig(ServerGroupNotifierConfiguration.class, path);
 
         ts3Api.addTS3Listeners(new TS3Listener() {
             @Override

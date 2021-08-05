@@ -1,4 +1,5 @@
 import Functions.FunctionInterface;
+import Functions.IdleCheck;
 import Functions.ServerGroupNotifier;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 
@@ -15,6 +16,7 @@ public class FunctionInvoker {
         this.botConfiguration = botConfiguration;
 
         functionMap.put("serverGroupNotifier", new ServerGroupNotifier());
+        functionMap.put("idleCheck", new IdleCheck());
     }
 
     public void registerFunctions() {
