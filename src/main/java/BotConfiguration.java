@@ -1,4 +1,7 @@
+import Functions.ServerGroupNotifier;
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,6 +45,8 @@ public class BotConfiguration {
     }
 
     public static BotConfiguration loadAndGetConfig() {
+        Logger logger = LoggerFactory.getLogger(BotConfiguration.class);
+        logger.info("Reading config for class: " + BotConfiguration.class);
         Gson gson = new Gson();
         String configJson = "";
         try {
