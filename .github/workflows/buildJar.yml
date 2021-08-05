@@ -20,5 +20,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Nightly Build
-          path: /home/runner/ts3_query_bot.jar
+          path: |
+          /home/runner/ts3_query_bot.jar
+          /home/runner/work/TS3-Query-Bot/*.json
           retention-days: 5
