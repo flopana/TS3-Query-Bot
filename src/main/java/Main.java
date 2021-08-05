@@ -109,12 +109,7 @@ public class Main {
 
         //Shutdown hook
         var shutdownListener = new Thread(() -> {
-            byte[] array = new byte[32]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, StandardCharsets.UTF_8);
-
             System.out.println("Shutting down.");
-            ts3Api.setNickname(generatedString);
             ts3Query.exit();
         });
         Runtime.getRuntime().addShutdownHook(shutdownListener);
