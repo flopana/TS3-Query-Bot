@@ -19,7 +19,7 @@ jobs:
           mvn package
           mv /home/runner/work/TS3-Query-Bot/TS3-Query-Bot/target/query_bot-1.0-SNAPSHOT.jar /home/runner/ts3_query_bot.jar
           mv /home/runner/work/TS3-Query-Bot/TS3-Query-Bot/*.json /home/runner
-          mv /home/runner/work/TS3-Query-Bot/TS3-Query-Bot/example_config.json /home/runner/work/TS3-Query-Bot/TS3-Query-Bot/config.json
+          mv /home/runner/example_config.json /home/runner/config.json
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
