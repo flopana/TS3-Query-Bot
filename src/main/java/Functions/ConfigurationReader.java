@@ -11,7 +11,7 @@ public abstract class ConfigurationReader {
         Gson gson = new Gson();
         String configJson = "";
         try {
-            configJson = Files.readString(Paths.get(path));
+            configJson = Files.readString(Paths.get("configs/"+path));
         } catch (IOException e) {
             e.printStackTrace();
         }
