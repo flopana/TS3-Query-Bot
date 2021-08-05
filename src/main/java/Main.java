@@ -24,6 +24,10 @@ public class Main {
         ts3Api.login(botConfiguration.getQueryUsername(), botConfiguration.getQueryPassword());
         ts3Api.selectVirtualServerById(botConfiguration.getVirtualServerId());
 
+        /*
+         * For some reason the Nickname sometimes is still on some table in TS3 and thus the bot is unable to set
+         * its nickname. The bot will then set a random name and tries again to set its configured name.
+         */
         try {
             ts3Api.setNickname(botConfiguration.getBotName());
         } catch (TS3CommandFailedException e) {
@@ -41,7 +45,7 @@ public class Main {
 
         //Only for development
 //        ts3Api.sendPrivateMessage(100, "hi");
-        ts3Api.sendPrivateMessage(56, "hi");
+//        ts3Api.sendPrivateMessage(56, "hi");
         List<Client> clients = ts3Api.getClients();
 
         ts3Api.registerAllEvents();
