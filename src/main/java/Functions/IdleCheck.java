@@ -3,12 +3,15 @@ package Functions;
 import Functions.Configuration.IdleCheckConfiguration;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class IdleCheck extends ConfigurationReader implements FunctionInterface {
     @Override
     public void register(TS3Api ts3Api, String path) {
+        Logger logger = LoggerFactory.getLogger(IdleCheck.class);
         final IdleCheckConfiguration conf = getConfig(IdleCheckConfiguration.class, path);
 
         Thread idleCheckDaemon = new Thread() {
@@ -24,6 +27,7 @@ public class IdleCheck extends ConfigurationReader implements FunctionInterface 
                             continue;
                         }
                         if (client.getIdleTime() >= conf.getIdleTimeoutMillis()) {
+                            logger.info("Moving Client: "+client.getNickname()+" to Channel: "+ts3Api.getChannelInfo(conf.getChannelToMoveTo()).getName());
                             ts3Api.moveClient(client.getId(), conf.getChannelToMoveTo());
                             ts3Api.sendPrivateMessage(client.getId(), "Hey " + client.getNickname() + " you got moved for being AFK");
                         }
@@ -57,6 +61,7 @@ public class IdleCheck extends ConfigurationReader implements FunctionInterface 
         };
 
         idleCheckDaemon.setDaemon(true);
+        logger.info("Starting IdleCheck Daemon thread");
         idleCheckDaemon.start();
     }
 }

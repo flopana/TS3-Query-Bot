@@ -4,7 +4,8 @@ import Functions.Configuration.ServerGroupNotifierConfiguration;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroup;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroupClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class ServerGroupNotifier extends ConfigurationReader implements Function
 
     @Override
     public void register(TS3Api ts3Api, String path) {
-
+        Logger logger = LoggerFactory.getLogger(ServerGroupNotifier.class);
         final ServerGroupNotifierConfiguration conf = getConfig(ServerGroupNotifierConfiguration.class, path);
 
         ts3Api.addTS3Listeners(new TS3Listener() {
@@ -27,6 +28,7 @@ public class ServerGroupNotifier extends ConfigurationReader implements Function
 
                 for (ServerGroup serverGroup : serverGroups){
                     if (serverGroup.getId() == conf.getServerGroupIdToNotify()){
+                        logger.info("Notifying client: " + clientJoinEvent.getInvokerName());
                         ts3Api.sendPrivateMessage(clientJoinEvent.getClientId(), conf.getMessage());
                     }
                 }
