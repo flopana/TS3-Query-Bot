@@ -3,8 +3,7 @@ package UserManagement;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class UserManager {
     private static final UserManager userManager = new UserManager();
@@ -64,6 +63,17 @@ public class UserManager {
 
     public User getUser(int clientId) {
         return userMap.get(clientId);
+    }
+
+    public List<User> getAllUsers(){
+        Set<Integer> keys = userMap.keySet();
+        List<User> users = new ArrayList<>();
+
+        for (Integer key : keys){
+            users.add(userMap.get(key));
+        }
+
+        return users;
     }
 
     public void removeUser(int clientId) {
