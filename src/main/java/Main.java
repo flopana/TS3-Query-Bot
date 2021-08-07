@@ -50,6 +50,8 @@ public class Main {
         final FunctionInvoker functionInvoker= new FunctionInvoker(ts3Api, botConfiguration);
         functionInvoker.registerFunctions();
 
+        logger.info("Finished registering everything");
+
         //Only for development
 //        List<Client> clients = ts3Api.getClients();
 //        for (Client client : clients){

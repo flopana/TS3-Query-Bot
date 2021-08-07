@@ -1,3 +1,4 @@
+import Functions.ChannelWatcher;
 import Functions.FunctionInterface;
 import Functions.IdleCheck;
 import Functions.ServerGroupNotifier;
@@ -21,6 +22,7 @@ public class FunctionInvoker {
 
         functionMap.put("serverGroupNotifier", new ServerGroupNotifier());
         functionMap.put("idleCheck", new IdleCheck());
+        functionMap.put("channelWatcher", new ChannelWatcher());
     }
 
     public void registerFunctions() {

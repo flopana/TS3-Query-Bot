@@ -10,6 +10,14 @@
     {
       "type": "serverGroupNotifier",
       "configPath": "serverGroupNotifier.json"
+    },
+    {
+      "type": "idleCheck",
+      "configPath": "idleCheck.json"
+    },
+    {
+      "type": "channelWatcher",
+      "configPath": "channelWatcher.json"
     }
   ]
 }
