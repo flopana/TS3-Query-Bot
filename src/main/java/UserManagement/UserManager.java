@@ -46,7 +46,7 @@ public class UserManager {
                 client.getUniqueIdentifier(),
                 client.getDatabaseId(),
                 client.getNickname(),
-                true,
+                isAdmin,
                 client.getServerGroups(),
                 client.getChannelId(),
                 client.getIp());
