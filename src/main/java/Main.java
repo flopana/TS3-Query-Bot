@@ -53,9 +53,9 @@ public class Main {
 
         //Only for development
 //        ts3Api.sendPrivateMessage(140, "hi);
-        ts3Api.sendPrivateMessage(92, "hi");
+//        ts3Api.sendPrivateMessage(92, "hi");
 //        ts3Api.moveClient(140, 57);
-        List<Client> clients = ts3Api.getClients();
+//        List<Client> clients = ts3Api.getClients();
 
         ts3Api.registerAllEvents();
         ts3Api.addTS3Listeners(new TS3Listener() {
