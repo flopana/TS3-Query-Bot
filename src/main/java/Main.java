@@ -1,13 +1,16 @@
+import UserManagement.User;
+import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
-import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
+import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
+import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Random;
 
 public class Main {
@@ -24,8 +27,16 @@ public class Main {
 
         final TS3Api ts3Api = ts3Query.getApi();
 
+        final UserManager userManager = UserManager.getInstance();
+
         ts3Api.login(botConfiguration.getQueryUsername(), botConfiguration.getQueryPassword());
         ts3Api.selectVirtualServerById(botConfiguration.getVirtualServerId());
+
+        logger.info("Adding every currently connected Client to the UserManager");
+        List<Client> clients = ts3Api.getClients();
+        for (Client client : clients){
+            userManager.addUser(client, botConfiguration.getAdminGroupIds());
+        }
 
         /*
          * For some reason the Nickname sometimes is still on some table in TS3 and thus the bot is unable to set
@@ -66,6 +77,24 @@ public class Main {
             @Override
             public void onTextMessage(TextMessageEvent textMessageEvent) {
                 commandInvoker.invokeCommand(textMessageEvent);
+            }
+            @Override
+            public void onClientJoin(ClientJoinEvent clientJoinEvent) {
+                userManager.addUser(
+                        clientJoinEvent,
+                        ts3Api.getClientByNameExact(clientJoinEvent.getClientNickname(),
+                        false),
+                        botConfiguration.getAdminGroupIds());
+            }
+            @Override
+            public void onClientLeave(ClientLeaveEvent clientLeaveEvent) {
+                userManager.removeUserFromLeaveEvent(clientLeaveEvent.getClientId());
+            }
+
+            @Override
+            public void onClientMoved(ClientMovedEvent clientMovedEvent) {
+                User user = userManager.getUser(clientMovedEvent.getClientId());
+                user.setCurrentChannelId(clientMovedEvent.getTargetChannelId());
             }
         });
 

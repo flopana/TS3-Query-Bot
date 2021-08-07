@@ -1,4 +1,6 @@
 import Commands.*;
+import UserManagement.User;
+import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import org.slf4j.Logger;
@@ -37,12 +39,8 @@ public class CommandInvoker {
         logger.info(e.getInvokerName() + " invoked command: " + e.getMessage());
 
         //Check if client is in an Admin group
-        boolean isAdmin = false;
-        for (Integer serverGroupId : botConfiguration.getAdminGroupIds()) {
-            if (ts3Api.getClientByUId(e.getInvokerUniqueId()).isInServerGroup(serverGroupId)) {
-                isAdmin = true;
-            }
-        }
+        boolean isAdmin = UserManager.getInstance().getUser(e.getInvokerId()).isAdmin();
+
         if (!isAdmin) {
             logger.info(e.getInvokerName() + " tried invoking a command but is not an Admin");
             ts3Api.sendPrivateMessage(e.getInvokerId(), """
