@@ -5,7 +5,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  buildJar:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -27,3 +27,27 @@ jobs:
             /home/runner/ts3_query_bot.jar
             /home/runner/work/TS3-Query-Bot/TS3-Query-Bot/configs/
           retention-days: 30
+  buildDocker:
+    needs: buildJar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Artifact from BuildJar
+        uses: actions/download-artifact@v2
+        with:
+          name: Nightly Build
+      - name: Move JAR out of Artifact Folder
+        run: |
+          ls -alh
+          mv Nightly\ Build/ts3_query_bot.jar .
+
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2.6.1
+        with:
+          context: .
+          push: true
+          tags: flopana/ts3-query-bot:develop
