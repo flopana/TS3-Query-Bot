@@ -1,8 +1,0 @@
-{
-  "botName": "FancyBot",
-  "queryUsername": "serveradmin",
-  "queryPassword": "abcdefghijk",
-  "serverIp": "321.321.321.321",
-  "virtualServerId": 1,
-  "adminGroupIds": [1,2,3]
-}

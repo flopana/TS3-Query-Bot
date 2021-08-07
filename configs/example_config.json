@@ -1,0 +1,23 @@
+{
+  "botName": "FancyBot",
+  "queryUsername": "serveradmin",
+  "queryPassword": "abcdefghijk",
+  "serverIp": "321.321.321.321",
+  "virtualServerId": 1,
+  "adminGroupIds": [1,2,3],
+  "_comment_function": "Function array can also be left empty or multiple functions of the same type instantiated",
+  "functions": [
+    {
+      "type": "serverGroupNotifier",
+      "configPath": "serverGroupNotifier.json"
+    },
+    {
+      "type": "idleCheck",
+      "configPath": "idleCheck.json"
+    },
+    {
+      "type": "channelWatcher",
+      "configPath": "channelWatcher.json"
+    }
+  ]
+}

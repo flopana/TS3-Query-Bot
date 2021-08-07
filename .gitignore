@@ -24,4 +24,8 @@ hs_err_pid*
 
 .idea/
 
-config.json
+configs/config.json
+
+dependency-reduced-pom.xml
+
+target/
