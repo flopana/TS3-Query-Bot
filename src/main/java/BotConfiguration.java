@@ -52,7 +52,7 @@ public class BotConfiguration {
         try {
             configJson = Files.readString(Paths.get("configs/config.json"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("No configs found!");
         }
 
         return gson.fromJson(configJson, BotConfiguration.class);
