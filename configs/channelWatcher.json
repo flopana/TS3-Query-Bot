@@ -1,5 +1,5 @@
 {
-  "channelToWatch": 1,
+  "channelToWatch": 21,
   "ignoreServerGroups": [9],
   "serverGroupsToNotify": [9],
   "clientJoinedMessage": "Hey i've messaged all available admins for you",
