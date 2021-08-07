@@ -9,10 +9,10 @@ import java.util.Map;
 public class UserManager {
     private static final UserManager userManager = new UserManager();
     /*
-     * The integer is the Client.clientId which is subject to change when users leave/join
+     * The integer is the Client.clientId which is subject to change when users leave/join (but gets automatically updated)
      * but in basically every Event you get supplied with the clientId which is why its used here as a key
      */
-    private Map<Integer, User> userMap = new HashMap<>();
+    private final Map<Integer, User> userMap = new HashMap<>();
 
     public UserManager() {
     }
