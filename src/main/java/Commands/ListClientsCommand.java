@@ -6,7 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import java.util.List;
 
-public class ListClientsCommand implements Command {
+public class ListClientsCommand implements ICommand {
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
         List<Client> clients = ts3Api.getClients();

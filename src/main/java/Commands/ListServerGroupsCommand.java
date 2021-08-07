@@ -2,12 +2,11 @@ package Commands;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerGroup;
 
 import java.util.List;
 
-public class ListServerGroupsCommand implements Command {
+public class ListServerGroupsCommand implements ICommand {
 
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
