@@ -23,6 +23,7 @@ public class CommandInvoker {
 
         //Register Commands
         commandMap.put("!bothelp", new BothelpCommand());
+        commandMap.put("!setnickname", new SetNicknameCommand());
         commandMap.put("!listclients", new ListClientsCommand());
         commandMap.put("!listchannels", new ListChannelsCommand());
         commandMap.put("!listservergroups", new ListServerGroupsCommand());
