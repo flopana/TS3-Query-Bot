@@ -1,14 +1,13 @@
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import com.github.theholywaffle.teamspeak3.api.event.*;
+import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
+import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Random;
 
 public class Main {
@@ -61,65 +60,10 @@ public class Main {
 //        }
 
         ts3Api.registerAllEvents();
-        ts3Api.addTS3Listeners(new TS3Listener() {
+        ts3Api.addTS3Listeners(new TS3EventAdapter() {
             @Override
             public void onTextMessage(TextMessageEvent textMessageEvent) {
                 commandInvoker.invokeCommand(textMessageEvent);
-            }
-
-            @Override
-            public void onClientJoin(ClientJoinEvent clientJoinEvent) {
-
-            }
-
-            @Override
-            public void onClientLeave(ClientLeaveEvent clientLeaveEvent) {
-
-            }
-
-            @Override
-            public void onServerEdit(ServerEditedEvent serverEditedEvent) {
-
-            }
-
-            @Override
-            public void onChannelEdit(ChannelEditedEvent channelEditedEvent) {
-
-            }
-
-            @Override
-            public void onChannelDescriptionChanged(ChannelDescriptionEditedEvent channelDescriptionEditedEvent) {
-
-            }
-
-            @Override
-            public void onClientMoved(ClientMovedEvent clientMovedEvent) {
-
-            }
-
-            @Override
-            public void onChannelCreate(ChannelCreateEvent channelCreateEvent) {
-
-            }
-
-            @Override
-            public void onChannelDeleted(ChannelDeletedEvent channelDeletedEvent) {
-
-            }
-
-            @Override
-            public void onChannelMoved(ChannelMovedEvent channelMovedEvent) {
-
-            }
-
-            @Override
-            public void onChannelPasswordChanged(ChannelPasswordChangedEvent channelPasswordChangedEvent) {
-
-            }
-
-            @Override
-            public void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent privilegeKeyUsedEvent) {
-
             }
         });
 
