@@ -11,6 +11,7 @@ public class BothelpCommand implements ICommand {
                 Available Commands:
 
                 !bothelp - Displays this message
+                !setnickname <string> - Sets the botname
                                 
                 !listclients - Prints a list of currently connected clients
                 !listchannels - Prints a list of channels on this server
