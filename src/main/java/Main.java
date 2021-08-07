@@ -52,10 +52,13 @@ public class Main {
         functionInvoker.registerFunctions();
 
         //Only for development
-//        ts3Api.sendPrivateMessage(140, "hi);
-//        ts3Api.sendPrivateMessage(92, "hi");
-//        ts3Api.moveClient(140, 57);
 //        List<Client> clients = ts3Api.getClients();
+//        for (Client client : clients){
+//            if (client.getDatabaseId() == 5){
+//                ts3Api.sendPrivateMessage(client.getId(), "hi");
+//                break;
+//            }
+//        }
 
         ts3Api.registerAllEvents();
         ts3Api.addTS3Listeners(new TS3Listener() {

@@ -15,9 +15,10 @@ public class ListClientsCommand implements Command {
         for (Client client : clients) {
             stringBuilder.append("Nickame: ").append(client.getNickname()).append("\n");
             stringBuilder.append("clientId: ").append(client.getId()).append("\n");
+            stringBuilder.append("databaseId: ").append(client.getDatabaseId()).append("\n");
             stringBuilder.append("UUID: ").append(client.getUniqueIdentifier()).append("\n");
             stringBuilder.append("Ip: ").append(client.getIp()).append("\n");
-            stringBuilder.append("Current channel id: ").append(client.getChannelId()).append("\n");
+            stringBuilder.append("channelId: ").append(client.getChannelId()).append("\n");
             stringBuilder.append("\n");
         }
 
