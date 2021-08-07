@@ -1,8 +1,8 @@
-name: Build JAR
+name: Build JAR & Container for Nightly
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ develop, feature/docker ]
 
 jobs:
   buildJar:
