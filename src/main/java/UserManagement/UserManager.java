@@ -66,7 +66,7 @@ public class UserManager {
         return userMap.get(clientId);
     }
 
-    public void removeUserFromLeaveEvent(int clientId) {
+    public void removeUser(int clientId) {
         userMap.remove(clientId);
     }
 }

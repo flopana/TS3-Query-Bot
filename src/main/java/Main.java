@@ -88,7 +88,7 @@ public class Main {
             }
             @Override
             public void onClientLeave(ClientLeaveEvent clientLeaveEvent) {
-                userManager.removeUserFromLeaveEvent(clientLeaveEvent.getClientId());
+                userManager.removeUser(clientLeaveEvent.getClientId());
             }
 
             @Override
