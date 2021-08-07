@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandInvoker {
-    Map<String, Command> commandMap;
+    Map<String, ICommand> commandMap;
     TS3Api ts3Api;
     BotConfiguration botConfiguration;
     Logger logger;

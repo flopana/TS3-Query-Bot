@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class MessageAllCommand implements Command {
+public class MessageAllCommand implements ICommand {
 
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {

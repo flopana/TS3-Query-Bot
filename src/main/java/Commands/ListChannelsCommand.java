@@ -6,7 +6,7 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 
 import java.util.List;
 
-public class ListChannelsCommand implements Command {
+public class ListChannelsCommand implements ICommand {
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
         List<Channel> channels = ts3Api.getChannels();
