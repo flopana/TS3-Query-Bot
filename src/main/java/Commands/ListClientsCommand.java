@@ -1,24 +1,27 @@
 package Commands;
 
+import UserManagement.User;
+import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ListClientsCommand implements ICommand {
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
-        List<Client> clients = ts3Api.getClients();
+        List<User> users = UserManager.getInstance().getAllUsers();
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (Client client : clients) {
-            stringBuilder.append("Nickame: ").append(client.getNickname()).append("\n");
-            stringBuilder.append("clientId: ").append(client.getId()).append("\n");
-            stringBuilder.append("databaseId: ").append(client.getDatabaseId()).append("\n");
-            stringBuilder.append("UUID: ").append(client.getUniqueIdentifier()).append("\n");
-            stringBuilder.append("Ip: ").append(client.getIp()).append("\n");
-            stringBuilder.append("channelId: ").append(client.getChannelId()).append("\n");
+        for (User user : users) {
+            stringBuilder.append("Nickame: ").append(user.getNickname()).append("\n");
+            stringBuilder.append("clientId: ").append(user.getClientId()).append("\n");
+            stringBuilder.append("databaseId: ").append(user.getDbId()).append("\n");
+            stringBuilder.append("UUID: ").append(user.getUniqueId()).append("\n");
+            stringBuilder.append("ServerGroups").append(Arrays.toString(user.getServerGroupIds())).append("\n");
+            stringBuilder.append("Ip: ").append(user.getIpAddress()).append("\n");
+            stringBuilder.append("channelId: ").append(user.getCurrentChannelId()).append("\n");
             stringBuilder.append("\n");
         }
 
