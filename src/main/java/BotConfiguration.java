@@ -8,13 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class BotConfiguration {
-    private final String botName;
-    private final String queryUsername;
-    private final String queryPassword;
-    private final String serverIp;
-    private final int virtualServerId;
-    private final int[] adminGroupIds;
-    private final Function[] functions;
+    private String botName;
+    private String queryUsername;
+    private String queryPassword;
+    private String serverIp;
+    private int virtualServerId;
+    private int[] adminGroupIds;
+    private Function[] functions;
 
     static class Function {
         String type;
@@ -62,27 +62,55 @@ public class BotConfiguration {
         return botName;
     }
 
+    public void setBotName(String botName) {
+        this.botName = botName;
+    }
+
     public String getQueryUsername() {
         return queryUsername;
+    }
+
+    public void setQueryUsername(String queryUsername) {
+        this.queryUsername = queryUsername;
     }
 
     public String getQueryPassword() {
         return queryPassword;
     }
 
+    public void setQueryPassword(String queryPassword) {
+        this.queryPassword = queryPassword;
+    }
+
     public String getServerIp() {
         return serverIp;
+    }
+
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
     }
 
     public int getVirtualServerId() {
         return virtualServerId;
     }
 
+    public void setVirtualServerId(int virtualServerId) {
+        this.virtualServerId = virtualServerId;
+    }
+
     public int[] getAdminGroupIds() {
         return adminGroupIds;
     }
 
+    public void setAdminGroupIds(int[] adminGroupIds) {
+        this.adminGroupIds = adminGroupIds;
+    }
+
     public Function[] getFunctions() {
         return functions;
+    }
+
+    public void setFunctions(Function[] functions) {
+        this.functions = functions;
     }
 }
