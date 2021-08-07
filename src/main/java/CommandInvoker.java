@@ -48,7 +48,7 @@ public class CommandInvoker {
             ts3Api.sendPrivateMessage(e.getInvokerId(), """
                     You're not an Admin!
                     Valid Admin groups are the following:
-                    
+                                        
                     """ + Arrays.toString(botConfiguration.getAdminGroupIds()));
             return;
         }
@@ -56,7 +56,7 @@ public class CommandInvoker {
         try {
             this.commandMap.get(e.getMessage().split(" ")[0]).execute(e, this.ts3Api);
         } catch (NullPointerException ex) {
-            logger.info("Invalid command by "+ e.getInvokerName() + " : " + e.getMessage());
+            logger.info("Invalid command by " + e.getInvokerName() + " : " + e.getMessage());
             ts3Api.sendPrivateMessage(e.getInvokerId(), "Invalid command: " + e.getMessage());
         }
     }
