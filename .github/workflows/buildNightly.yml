@@ -37,11 +37,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Nightly Build
-      - name: Move JAR out of Artifact Folder
-        run: |
-          ls -alh
-          mv Nightly\ Build/ts3_query_bot.jar .
-
       - name: Login to Dockerhub
         uses: docker/login-action@v1
         with:
