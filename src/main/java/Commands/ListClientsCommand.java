@@ -19,7 +19,7 @@ public class ListClientsCommand implements ICommand {
             stringBuilder.append("clientId: ").append(user.getClientId()).append("\n");
             stringBuilder.append("databaseId: ").append(user.getDbId()).append("\n");
             stringBuilder.append("UUID: ").append(user.getUniqueId()).append("\n");
-            stringBuilder.append("ServerGroups").append(Arrays.toString(user.getServerGroupIds())).append("\n");
+            stringBuilder.append("ServerGroups: ").append(Arrays.toString(user.getServerGroupIds())).append("\n");
             stringBuilder.append("Ip: ").append(user.getIpAddress()).append("\n");
             stringBuilder.append("channelId: ").append(user.getCurrentChannelId()).append("\n");
             stringBuilder.append("\n");
