@@ -50,13 +50,13 @@ jobs:
         if: ${{ github.ref == 'refs/heads/develop' }}
         uses: actions/download-artifact@v2
         with:
-          name: Nightly Build
+          name: ts3-query-bot-nightly
 
       - name: Get Artifact from BuildJar (Master)
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/download-artifact@v2
         with:
-          name: Stable Build
+          name: ts3-query-bot-stable
 
       - name: Login to Dockerhub
         uses: docker/login-action@v1
