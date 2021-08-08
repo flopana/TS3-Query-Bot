@@ -12,9 +12,13 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+
         Logger logger = LoggerFactory.getLogger(Main.class);
         final BotConfiguration botConfiguration = BotConfiguration.loadAndGetConfig();
 
@@ -25,6 +29,7 @@ public class Main {
         final TS3Query ts3Query = new TS3Query(ts3Config);
         ts3Query.connect();
 
+        // Use async
         final TS3Api ts3Api = ts3Query.getApi();
 
         final UserManager userManager = UserManager.getInstance();
@@ -76,31 +81,36 @@ public class Main {
         ts3Api.addTS3Listeners(new TS3EventAdapter() {
             @Override
             public void onTextMessage(TextMessageEvent textMessageEvent) {
-                commandInvoker.invokeCommand(textMessageEvent);
+                executorService.submit(() -> commandInvoker.invokeCommand(textMessageEvent));
             }
             @Override
             public void onClientJoin(ClientJoinEvent clientJoinEvent) {
-                userManager.addUser(
-                        clientJoinEvent,
-                        ts3Api.getClientByNameExact(clientJoinEvent.getClientNickname(),
-                        false),
-                        botConfiguration.getAdminGroupIds());
+                executorService.submit(() ->
+                    userManager.addUser(
+                            clientJoinEvent,
+                            ts3Api.getClientByNameExact(clientJoinEvent.getClientNickname(),
+                                    false),
+                            botConfiguration.getAdminGroupIds())
+                    );
             }
             @Override
             public void onClientLeave(ClientLeaveEvent clientLeaveEvent) {
-                userManager.removeUser(clientLeaveEvent.getClientId());
+                executorService.submit(() -> userManager.removeUser(clientLeaveEvent.getClientId()));
             }
 
             @Override
             public void onClientMoved(ClientMovedEvent clientMovedEvent) {
-                User user = userManager.getUser(clientMovedEvent.getClientId());
-                user.setCurrentChannelId(clientMovedEvent.getTargetChannelId());
+                executorService.submit(() -> {
+                    User user = userManager.getUser(clientMovedEvent.getClientId());
+                    user.setCurrentChannelId(clientMovedEvent.getTargetChannelId());
+                });
             }
         });
 
         //Shutdown hook
         var shutdownListener = new Thread(() -> {
             logger.info("Shutting Down");
+            executorService.shutdown();
             ts3Query.exit();
         });
         Runtime.getRuntime().addShutdownHook(shutdownListener);
