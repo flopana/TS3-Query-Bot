@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class SearchNicknameCommand implements ICommand {
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
-        StringBuilder message = new StringBuilder();
+        StringBuilder messageOnline = new StringBuilder();
+        StringBuilder messageOffline = new StringBuilder();
         Pattern pattern = Pattern.compile(e.getMessage().substring(16));
         List<User> users = UserManager.getInstance().getAllUsers();
         List<DatabaseClient> databaseClients = ts3Api.getDatabaseClients();
@@ -26,29 +27,28 @@ public class SearchNicknameCommand implements ICommand {
         // TODO: Message strings can be to long. Needs to be split into multiple messages
 
         if (!alikeUsersOnline.isEmpty()) {
-            message.append("Online clients:").append("\n");
-            message.append("-------------------").append("\n\n");
+            messageOnline.append("Online clients:").append("\n");
+            messageOnline.append("-------------------").append("\n\n");
             for (User onlineUser : alikeUsersOnline) {
-                message.append("uniqueId: ").append(onlineUser.getUniqueId()).append("\n");
-                message.append("Nickname: ").append(onlineUser.getNickname()).append("\n\n");
+                messageOnline.append("uniqueId: ").append(onlineUser.getUniqueId()).append("\n");
+                messageOnline.append("Nickname: ").append(onlineUser.getNickname()).append("\n\n");
             }
-            ts3Api.sendPrivateMessage(e.getInvokerId(), message.toString());
-            message = new StringBuilder();
+            ts3Api.sendPrivateMessage(e.getInvokerId(), messageOnline.toString());
         }
 
         if (!alikeDatabaseClients.isEmpty()) {
-            message.append("Database clients:").append("\n");
-            message.append("-------------------").append("\n\n");
+            messageOffline.append("Database clients:").append("\n");
+            messageOffline.append("-------------------").append("\n\n");
             for (DatabaseClient databaseClient : alikeDatabaseClients) {
-                message.append("uniqueId: ").append(databaseClient.getUniqueIdentifier()).append("\n");
-                message.append("Nickname: ").append(databaseClient.getNickname()).append("\n");
-                message.append("LastConnection: ").append(databaseClient.getLastConnectedDate()).append("\n\n");
+                messageOffline.append("uniqueId: ").append(databaseClient.getUniqueIdentifier()).append("\n");
+                messageOffline.append("Nickname: ").append(databaseClient.getNickname()).append("\n");
+                messageOffline.append("LastConnection: ").append(databaseClient.getLastConnectedDate()).append("\n\n");
             }
-            ts3Api.sendPrivateMessage(e.getInvokerId(), message.toString());
+            ts3Api.sendPrivateMessage(e.getInvokerId(), messageOffline.toString());
         }
 
-        if (message.isEmpty()){
-            message.append("Couldn't find any clients with pattern: ").append(pattern);
+        if (messageOffline.isEmpty() && messageOnline.isEmpty()){
+            ts3Api.sendPrivateMessage(e.getInvokerId(), "Couldn't find any clients with pattern: "+pattern);
         }
     }
 
