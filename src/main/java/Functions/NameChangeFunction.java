@@ -24,6 +24,11 @@ public class NameChangeFunction implements FunctionInterface{
                 for(Client client : clients){
                     User user = userManager.getUser(client.getId());
 
+                    // Race condition it can happen that the teamspeak user table contains users that aren't in the user manager
+                    if (user == null){
+                        continue;
+                    }
+
                     if (!client.getNickname().equals(user.getNickname())){
                         userManager.removeUser(client.getId());
                         userManager.addUser(client, userManager.getAdminGroupIds());
