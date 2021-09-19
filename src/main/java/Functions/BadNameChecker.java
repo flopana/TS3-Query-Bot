@@ -4,15 +4,21 @@ import Functions.Configuration.BadNameCheckerConfiguration;
 import UserManagement.User;
 import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
-import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BadNameChecker extends ConfigurationReader implements FunctionInterface {
+public class BadNameChecker extends ConfigurationReader implements FunctionInterface, IObserver {
+    private String message;
+    private Pattern pattern;
+    private TS3Api ts3Api;
+
+    public BadNameChecker() {
+        UserManager.getInstance().attach(this);
+    }
+
     @Override
     public void register(TS3Api ts3Api, String path) {
         Logger logger = LoggerFactory.getLogger(BadNameChecker.class);
@@ -24,22 +30,14 @@ public class BadNameChecker extends ConfigurationReader implements FunctionInter
             pattern = Pattern.compile(conf.getPattern(), Pattern.CASE_INSENSITIVE);
         }
 
-        // Check directly when a client joins
-        ts3Api.addTS3Listeners(new TS3EventAdapter() {
-            @Override
-            public void onClientJoin(ClientJoinEvent e) {
-                if (checkForBadName(e.getClientId(), pattern)) {
-                    logger.info("Kicking client: "+e.getClientNickname()+". This name was determined bad by regex: "+conf.getPattern());
-                    kickClientFromServer(ts3Api, e.getClientId(), conf.getMessage());
-                }
-            }
-        });
+        this.message = conf.getMessage();
+        this.pattern = pattern;
+        this.ts3Api = ts3Api;
 
         // Check every 2000ms every client (name change)
         Thread nameChecker = new Thread(() -> {
             while (true){
                 logger.debug("Starting a periodic bad name check");
-
                 for(User user : UserManager.getInstance().getAllUsers()){
                     if (checkForBadName(user.getClientId(), pattern)){
                         logger.info("Kicking client: "+user.getNickname()+". This name was determined bad by regex: "+conf.getPattern());
@@ -76,8 +74,18 @@ public class BadNameChecker extends ConfigurationReader implements FunctionInter
 
     private void kickClientFromServer(TS3Api ts3Api, int clientId, String message){
         try {
-            UserManager userManager = UserManager.getInstance();
             ts3Api.kickClientFromServer(message, clientId);
         } catch (Exception ignore) {}
+    }
+
+    public void update(){
+        Logger logger = LoggerFactory.getLogger(BadNameChecker.class);
+        UserManager userManager = UserManager.getInstance();
+        User user = userManager.getLastUserJoined();
+
+        if (checkForBadName(user.getClientId(), pattern)) {
+            logger.info("Kicking client: "+user.getNickname()+". This name was determined bad by regex: "+this.pattern.toString());
+            kickClientFromServer(ts3Api, user.getClientId(), this.message);
+        }
     }
 }
