@@ -1,7 +1,4 @@
-import Functions.ChannelWatcher;
-import Functions.FunctionInterface;
-import Functions.IdleCheck;
-import Functions.ServerGroupNotifier;
+import Functions.*;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +20,7 @@ public class FunctionInvoker {
         functionMap.put("serverGroupNotifier", new ServerGroupNotifier());
         functionMap.put("idleCheck", new IdleCheck());
         functionMap.put("channelWatcher", new ChannelWatcher());
+        functionMap.put("badNameChecker", new BadNameChecker());
     }
 
     public void registerFunctions() {
