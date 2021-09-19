@@ -29,7 +29,6 @@ public class Main {
         final TS3Query ts3Query = new TS3Query(ts3Config);
         ts3Query.connect();
 
-        // Use async
         final TS3Api ts3Api = ts3Query.getApi();
 
         final UserManager userManager = UserManager.getInstance();
