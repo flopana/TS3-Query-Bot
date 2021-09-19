@@ -18,6 +18,10 @@
     {
       "type": "channelWatcher",
       "configPath": "channelWatcher.json"
+    },
+    {
+      "type": "badNameChecker",
+      "configPath": "badNameChecker.json"
     }
   ]
 }
