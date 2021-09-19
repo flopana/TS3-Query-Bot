@@ -105,6 +105,7 @@ public class UserManager implements IObservable {
 
     public void removeUser(int clientId) {
         userMap.remove(clientId);
+        update();
     }
 
     public int getSize(){
