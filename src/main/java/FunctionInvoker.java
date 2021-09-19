@@ -24,6 +24,9 @@ public class FunctionInvoker {
     }
 
     public void registerFunctions() {
+        // Checks for name changes and updates the UserManager accordingly
+        new NameChangeFunction().register(ts3Api, "");
+
         for(BotConfiguration.Function function : botConfiguration.getFunctions()){
             try {
                 logger.info("Registering function " + function.getType());
