@@ -25,6 +25,8 @@ public class BothelpCommand implements ICommand {
                 !listservergroups - Prints a list of Servergroups
                 
                 !msgall <string> - Sends a message to all users.
+                
+                !rebuildUserManager - Rebuilds the userManager HashMap
                 """);
     }
 }
