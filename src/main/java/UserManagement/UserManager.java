@@ -1,11 +1,13 @@
 package UserManagement;
 
+import Functions.IObservable;
+import Functions.IObserver;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 
 import java.util.*;
 
-public class UserManager {
+public class UserManager implements IObservable {
     private static final UserManager userManager = new UserManager();
     /*
      * The integer is the Client.clientId which is subject to change when users leave/join (but gets automatically updated)
@@ -13,6 +15,8 @@ public class UserManager {
      */
     private final Map<Integer, User> userMap = new HashMap<>();
     private int[] adminGroupIds;
+    private final ArrayList<IObserver> observers = new ArrayList<>();
+    private User lastUserJoined;
 
     public UserManager() {
     }
@@ -22,7 +26,9 @@ public class UserManager {
     }
 
     public void addUser(User user) {
+        lastUserJoined = user;
         userMap.put(user.getClientId(), user);
+        update();
     }
 
     public void addUser(ClientJoinEvent e, Client client, int[] adminGroupIds) {
@@ -62,6 +68,22 @@ public class UserManager {
         return false;
     }
 
+    public IObservable attach(IObserver observer){
+        observers.add(observer);
+        return this;
+    }
+
+    public IObservable detach(IObserver observer){
+        observers.remove(observer);
+        return this;
+    }
+
+    public void update(){
+        for(IObserver observer : observers){
+            observer.update();
+        }
+    }
+
     public User getUser(int clientId) {
         return userMap.get(clientId);
     }
@@ -91,6 +113,10 @@ public class UserManager {
 
     public int[] getAdminGroupIds() {
         return adminGroupIds;
+    }
+
+    public User getLastUserJoined(){
+        return lastUserJoined;
     }
 
     public void setAdminGroupIds(int[] adminGroupIds) {
