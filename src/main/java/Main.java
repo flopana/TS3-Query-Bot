@@ -69,7 +69,6 @@ public class Main {
         logger.info("Finished registering everything");
 
         //Only for development
-//        List<Client> clients = ts3Api.getClients();
 //        for (Client client : clients){
 //            if (client.getDatabaseId() == 5){
 //                ts3Api.sendPrivateMessage(client.getId(), "hi");

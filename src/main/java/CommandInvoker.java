@@ -61,6 +61,7 @@ public class CommandInvoker {
         } catch (NullPointerException ex) {
             logger.info("Invalid command by " + e.getInvokerName() + " : " + e.getMessage());
             ts3Api.sendPrivateMessage(e.getInvokerId(), "Invalid command: " + e.getMessage());
+            ts3Api.sendPrivateMessage(e.getInvokerId(), "Send me !bothelp for a list of all available commands");
         }
     }
 }
