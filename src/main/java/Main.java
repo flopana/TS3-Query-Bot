@@ -33,6 +33,7 @@ public class Main {
         final TS3Api ts3Api = ts3Query.getApi();
 
         final UserManager userManager = UserManager.getInstance();
+        userManager.setAdminGroupIds(botConfiguration.getAdminGroupIds());
 
         ts3Api.login(botConfiguration.getQueryUsername(), botConfiguration.getQueryPassword());
         ts3Api.selectVirtualServerById(botConfiguration.getVirtualServerId());

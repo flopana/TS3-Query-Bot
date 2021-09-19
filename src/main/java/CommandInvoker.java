@@ -32,6 +32,8 @@ public class CommandInvoker {
         commandMap.put("!listservergroups", new ListServerGroupsCommand());
 
         commandMap.put("!msgall", new MessageAllCommand());
+
+        commandMap.put("!rebuildUserManager", new RebuildUserManagerCommand());
     }
 
     public void invokeCommand(TextMessageEvent e) {
@@ -50,7 +52,6 @@ public class CommandInvoker {
             ts3Api.sendPrivateMessage(e.getInvokerId(), """
                     You're not an Admin!
                     Valid Admin groups are the following:
-                                        
                     """ + Arrays.toString(botConfiguration.getAdminGroupIds()));
             return;
         }

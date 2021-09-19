@@ -12,6 +12,7 @@ public class UserManager {
      * but in basically every Event you get supplied with the clientId which is why its used here as a key
      */
     private final Map<Integer, User> userMap = new HashMap<>();
+    private int[] adminGroupIds;
 
     public UserManager() {
     }
@@ -76,7 +77,23 @@ public class UserManager {
         return users;
     }
 
+    public void clearUserManager(){
+        userMap.clear();
+    }
+
     public void removeUser(int clientId) {
         userMap.remove(clientId);
+    }
+
+    public int getSize(){
+        return userMap.size();
+    }
+
+    public int[] getAdminGroupIds() {
+        return adminGroupIds;
+    }
+
+    public void setAdminGroupIds(int[] adminGroupIds) {
+        this.adminGroupIds = adminGroupIds;
     }
 }
