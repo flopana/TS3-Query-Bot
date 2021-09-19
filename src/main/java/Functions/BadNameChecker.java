@@ -75,6 +75,7 @@ public class BadNameChecker extends ConfigurationReader implements FunctionInter
     private void kickClientFromServer(TS3Api ts3Api, int clientId, String message){
         try {
             ts3Api.kickClientFromServer(message, clientId);
+            UserManager.getInstance().removeUser(clientId);
         } catch (Exception ignore) {}
     }
 
