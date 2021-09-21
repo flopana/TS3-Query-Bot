@@ -72,7 +72,7 @@ public class Main {
 
         //Only for development
 //        for (Client client : clients){
-//            if (client.getDatabaseId() == 434){
+//            if (client.getDatabaseId() == 5 | client.getDatabaseId() == 434){
 //                ts3Api.sendPrivateMessage(client.getId(), "hi");
 //                break;
 //            }
