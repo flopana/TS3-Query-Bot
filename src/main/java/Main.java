@@ -71,12 +71,12 @@ public class Main {
         logger.info("Finished registering everything");
 
         //Only for development
-        for (Client client : clients){
-            if (client.getDatabaseId() == 434){
-                ts3Api.sendPrivateMessage(client.getId(), "hi");
-                break;
-            }
-        }
+//        for (Client client : clients){
+//            if (client.getDatabaseId() == 434){
+//                ts3Api.sendPrivateMessage(client.getId(), "hi");
+//                break;
+//            }
+//        }
 
         ts3Api.registerAllEvents();
         ts3Api.addTS3Listeners(new TS3EventAdapter() {

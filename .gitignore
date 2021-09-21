@@ -31,3 +31,5 @@ dependency-reduced-pom.xml
 target/
 
 tsBot.db
+
+query_bot.iml
