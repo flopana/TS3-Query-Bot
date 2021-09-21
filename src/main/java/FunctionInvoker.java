@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FunctionInvoker {
     HashMap<String, FunctionInterface> functionMap;
@@ -25,16 +28,22 @@ public class FunctionInvoker {
     }
 
     public void registerFunctions() {
-        // Checks for name changes and updates the UserManager accordingly
-        new NameChangeFunction().register(ts3Api, "");
+        ExecutorService executorService = Executors.newFixedThreadPool(50);
 
-        for(BotConfiguration.Function function : botConfiguration.getFunctions()){
-            try {
-                logger.info("Registering function " + function.getType());
-                functionMap.get(function.getType()).register(ts3Api, function.getConfigPath());
-            } catch (NullPointerException e) {
-                logger.warn("Invalid function type: " + function.getType());
-            }
+        // Checks for name changes and updates the UserManager accordingly
+        executorService.submit(() -> new NameChangeFunction().register(ts3Api, ""));
+
+        for (BotConfiguration.Function function : botConfiguration.getFunctions()) {
+            executorService.submit(() -> {
+                try {
+                    logger.info("Registering function " + function.getType());
+                    functionMap.get(function.getType()).register(ts3Api, function.getConfigPath());
+                } catch (NullPointerException e) {
+                    logger.warn("Invalid function type: " + function.getType());
+                }
+            });
         }
+
+        executorService.shutdown();
     }
 }
