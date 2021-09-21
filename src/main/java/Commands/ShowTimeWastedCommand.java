@@ -13,7 +13,7 @@ public class ShowTimeWastedCommand implements ICommand{
         StringBuilder stringBuilder = new StringBuilder();
         User user = UserManager.getInstance().getUser(e.getTargetClientId());
         long tage = 0, stunden = 0, minuten = 0, sekunden = 0;
-        long secondsWasted = user.getUserDBModel().getUserOnlineSeconds();
+        long secondsWasted = UserManager.getInstance().getUser(e.getTargetClientId()).getUserDBModel().GetWastedTime();
         tage = secondsWasted / 86400;
         secondsWasted %= 86400;
         stunden = secondsWasted / 3600;

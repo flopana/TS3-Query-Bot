@@ -98,6 +98,8 @@ public class User {
 
     public long getTimeStayed() {
         endTime = System.currentTimeMillis();
+        long tempTime = startTime;
+        startTime = System.currentTimeMillis();
         return (endTime - startTime);
     }
 }

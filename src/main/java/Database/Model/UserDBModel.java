@@ -89,4 +89,19 @@ public class UserDBModel {
         }
     }
 
+    public long GetWastedTime(){
+        String sql = "SELECT userOnlineSeconds from users where tsID = '" + tsID + "';";
+
+        try {
+            PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            logger.debug("User " + name + " with UUID " + tsID + " time left updated");
+            resultSet.next();
+            return resultSet.getLong("userOnlineSeconds");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
 }
