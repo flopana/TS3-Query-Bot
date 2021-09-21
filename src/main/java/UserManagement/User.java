@@ -1,5 +1,9 @@
 package UserManagement;
 
+import Database.Model.UserDBModel;
+
+import java.util.Timer;
+
 public class User {
     private int clientId;
     private String uniqueId;
@@ -9,8 +13,11 @@ public class User {
     private int[] serverGroupIds;
     private int currentChannelId;
     private String ipAddress;
+    private long startTime, endTime;
 
-    public User(int clientId, String uniqueId, int dbId, String nickname, boolean isAdmin, int[] serverGroupIds, int currentChannelId, String ipAddress) {
+    private UserDBModel userDBModel;
+
+    public User(int clientId, String uniqueId, int dbId, String nickname, boolean isAdmin, int[] serverGroupIds, int currentChannelId, String ipAddress, UserDBModel userDBModel) {
         this.clientId = clientId;
         this.uniqueId = uniqueId;
         this.dbId = dbId;
@@ -19,6 +26,8 @@ public class User {
         this.serverGroupIds = serverGroupIds;
         this.currentChannelId = currentChannelId;
         this.ipAddress = ipAddress;
+        this.userDBModel = userDBModel;
+        this.startTime = System.currentTimeMillis();
     }
 
     public int getClientId() {
@@ -83,5 +92,12 @@ public class User {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public UserDBModel getUserDBModel() { return userDBModel;}
+
+    public long getTimeStayed() {
+        endTime = System.currentTimeMillis();
+        return (endTime - startTime);
     }
 }

@@ -1,4 +1,4 @@
-import Database.DBController;
+import Database.Controller.DBController;
 import UserManagement.User;
 import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
@@ -72,7 +72,7 @@ public class Main {
 
         //Only for development
         for (Client client : clients){
-            if (client.getDatabaseId() == 186){
+            if (client.getDatabaseId() == 434){
                 ts3Api.sendPrivateMessage(client.getId(), "hi");
                 break;
             }
