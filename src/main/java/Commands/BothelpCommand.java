@@ -27,6 +27,7 @@ public class BothelpCommand implements ICommand {
                 !msgall <string> - Sends a message to all users.
                 
                 !rebuildUserManager - Rebuilds the userManager HashMap
+                !showwastedtime - Prompts the user with his wasted time
                 """);
     }
 }
