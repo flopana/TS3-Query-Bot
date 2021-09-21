@@ -35,6 +35,7 @@ public class CommandInvoker {
 
         commandMap.put("!rebuildUserManager", new RebuildUserManagerCommand());
         commandMap.put("!showwastedtime", new ShowTimeWastedCommand());
+        commandMap.put("!resourceusage", new ResourceUsageCommand());
     }
 
     public void invokeCommand(TextMessageEvent e) {
