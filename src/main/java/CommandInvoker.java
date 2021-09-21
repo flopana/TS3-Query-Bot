@@ -34,6 +34,7 @@ public class CommandInvoker {
         commandMap.put("!msgall", new MessageAllCommand());
 
         commandMap.put("!rebuildUserManager", new RebuildUserManagerCommand());
+        commandMap.put("!showwastedtime", new ShowTimeWastedCommand());
     }
 
     public void invokeCommand(TextMessageEvent e) {

@@ -11,6 +11,11 @@ import java.sql.SQLException;
 public class UserDBModel {
     private String tsID;
     private final String name;
+
+    public long getUserOnlineSeconds() {
+        return userOnlineSeconds;
+    }
+
     private long userOnlineSeconds;
 
     private final Connection conn;

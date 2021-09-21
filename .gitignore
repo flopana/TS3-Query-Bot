@@ -29,3 +29,5 @@ configs/config.json
 dependency-reduced-pom.xml
 
 target/
+
+tsBot.db
