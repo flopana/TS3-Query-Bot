@@ -1,6 +1,7 @@
 package Functions;
 
 import Functions.Configuration.ChannelWatcherConfiguration;
+import Interfaces.FunctionInterface;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;

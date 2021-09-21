@@ -1,4 +1,5 @@
 import Functions.*;
+import Interfaces.FunctionInterface;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

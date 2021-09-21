@@ -1,4 +1,4 @@
-package Functions;
+package Interfaces;
 
 public interface IObservable {
     IObservable attach(IObserver observer);

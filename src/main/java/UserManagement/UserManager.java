@@ -1,7 +1,7 @@
 package UserManagement;
 
-import Functions.IObservable;
-import Functions.IObserver;
+import Interfaces.IObservable;
+import Interfaces.IObserver;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 

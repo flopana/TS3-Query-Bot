@@ -1,6 +1,7 @@
 package Functions;
 
 import Functions.Configuration.ServerGroupNotifierConfiguration;
+import Interfaces.FunctionInterface;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
