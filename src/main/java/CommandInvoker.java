@@ -14,12 +14,14 @@ public class CommandInvoker {
     TS3Api ts3Api;
     BotConfiguration botConfiguration;
     Logger logger;
+    int whoAmI;
 
     public CommandInvoker(TS3Api ts3Api, BotConfiguration botConfiguration) {
         this.commandMap = new HashMap<>();
         this.ts3Api = ts3Api;
         this.botConfiguration = botConfiguration;
         this.logger = LoggerFactory.getLogger(CommandInvoker.class);
+        this.whoAmI = ts3Api.whoAmI().getId();
 
         //Register Commands
         commandMap.put("!bothelp", new BothelpCommand());
@@ -35,11 +37,12 @@ public class CommandInvoker {
 
         commandMap.put("!rebuildUserManager", new RebuildUserManagerCommand());
         commandMap.put("!showwastedtime", new ShowTimeWastedCommand());
+        commandMap.put("!resourceusage", new ResourceUsageCommand());
     }
 
     public void invokeCommand(TextMessageEvent e) {
         //Check whether the TextEvent originated from the Bot itself or not
-        if (ts3Api.whoAmI().getId() == e.getInvokerId()) {
+        if (whoAmI == e.getInvokerId()) {
             return;
         }
 
@@ -61,8 +64,7 @@ public class CommandInvoker {
             this.commandMap.get(e.getMessage().split(" ")[0]).execute(e, this.ts3Api);
         } catch (NullPointerException ex) {
             logger.info("Invalid command by " + e.getInvokerName() + " : " + e.getMessage());
-            ts3Api.sendPrivateMessage(e.getInvokerId(), "Invalid command: " + e.getMessage());
-            ts3Api.sendPrivateMessage(e.getInvokerId(), "Send me !bothelp for a list of all available commands");
+            ts3Api.sendPrivateMessage(e.getInvokerId(), "Invalid command: " + e.getMessage() + "\n Send me !bothelp for a list of all available commands");
         }
     }
 }

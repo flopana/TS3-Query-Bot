@@ -28,6 +28,7 @@ public class BothelpCommand implements ICommand {
                 
                 !rebuildUserManager - Rebuilds the userManager HashMap
                 !showwastedtime - Prompts the user with his wasted time
+                !resourceusage - Prints resources used by the Bot
                 """);
     }
 }
