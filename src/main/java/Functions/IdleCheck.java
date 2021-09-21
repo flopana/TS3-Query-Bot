@@ -1,6 +1,7 @@
 package Functions;
 
 import Functions.Configuration.IdleCheckConfiguration;
+import Interfaces.FunctionInterface;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import org.slf4j.Logger;

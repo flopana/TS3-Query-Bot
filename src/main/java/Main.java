@@ -1,3 +1,4 @@
+import Database.Controller.DBController;
 import UserManagement.User;
 import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
@@ -17,6 +18,7 @@ import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) {
+        DBController dbController = new DBController();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         Logger logger = LoggerFactory.getLogger(Main.class);
@@ -70,7 +72,7 @@ public class Main {
 
         //Only for development
 //        for (Client client : clients){
-//            if (client.getDatabaseId() == 5){
+//            if (client.getDatabaseId() == 434){
 //                ts3Api.sendPrivateMessage(client.getId(), "hi");
 //                break;
 //            }

@@ -1,5 +1,6 @@
 package Functions;
 
+import Interfaces.FunctionInterface;
 import UserManagement.User;
 import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
@@ -9,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class NameChangeFunction implements FunctionInterface{
+public class NameChangeFunction implements FunctionInterface {
     @Override
     public void register(TS3Api ts3Api, String path) {
         Logger logger = LoggerFactory.getLogger(NameChangeFunction.class);

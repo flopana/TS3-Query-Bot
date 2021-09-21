@@ -1,9 +1,13 @@
 package UserManagement;
 
-import Functions.IObservable;
-import Functions.IObserver;
+import Database.Controller.DBController;
+import Database.Model.UserDBModel;
+import Interfaces.IObservable;
+import Interfaces.IObserver;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -17,8 +21,13 @@ public class UserManager implements IObservable {
     private int[] adminGroupIds;
     private final ArrayList<IObserver> observers = new ArrayList<>();
     private User lastUserJoined;
+    private Logger logger;
+
+    private final DBController dbController;
 
     public UserManager() {
+        dbController = new DBController();
+        logger = LoggerFactory.getLogger(UserManager.class);
     }
 
     public static UserManager getInstance() {
@@ -41,7 +50,8 @@ public class UserManager implements IObservable {
                 isAdmin,
                 client.getServerGroups(),
                 client.getChannelId(),
-                client.getIp());
+                client.getIp(),
+                new UserDBModel(client.getUniqueIdentifier(), e.getClientNickname(), dbController.getConn()));
         addUser(user);
     }
 
@@ -55,7 +65,8 @@ public class UserManager implements IObservable {
                 isAdmin,
                 client.getServerGroups(),
                 client.getChannelId(),
-                client.getIp());
+                client.getIp(),
+                new UserDBModel(client.getUniqueIdentifier(), client.getNickname(), dbController.getConn()));
         addUser(user);
     }
 
@@ -104,6 +115,9 @@ public class UserManager implements IObservable {
     }
 
     public void removeUser(int clientId) {
+        User toRemove = userMap.get(clientId);
+        logger.debug("User Disconnected");
+        toRemove.getUserDBModel().UpdateTimeOnline(toRemove.getTimeStayed());
         userMap.remove(clientId);
         update();
     }

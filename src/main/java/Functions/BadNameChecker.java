@@ -1,6 +1,8 @@
 package Functions;
 
 import Functions.Configuration.BadNameCheckerConfiguration;
+import Interfaces.FunctionInterface;
+import Interfaces.IObserver;
 import UserManagement.User;
 import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
