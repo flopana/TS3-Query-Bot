@@ -38,6 +38,8 @@ public class CommandInvoker {
         commandMap.put("!rebuildUserManager", new RebuildUserManagerCommand());
         commandMap.put("!showwastedtime", new ShowTimeWastedCommand());
         commandMap.put("!resourceusage", new ResourceUsageCommand());
+
+        commandMap.put("!genCryptSafeRandomString", new GenerateCryptoSafeRandomStringCommand());
     }
 
     public void invokeCommand(TextMessageEvent e) {
