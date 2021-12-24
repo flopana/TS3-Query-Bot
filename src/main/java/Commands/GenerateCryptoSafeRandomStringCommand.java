@@ -5,6 +5,7 @@ import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 
 import java.security.SecureRandom;
 
+// https://stackoverflow.com/a/7111735/11844720
 public class GenerateCryptoSafeRandomStringCommand implements ICommand{
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
