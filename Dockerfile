@@ -1,4 +1,4 @@
-FROM amazoncorretto:16.0.2
+FROM amazoncorretto:17.0.2
 
 WORKDIR /usr/local/query_bot
 
