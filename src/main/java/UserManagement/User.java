@@ -1,7 +1,10 @@
 package UserManagement;
 
 import Database.Model.UserDBModel;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import java.util.Arrays;
 import java.util.Timer;
 
 public class User {
@@ -28,6 +31,37 @@ public class User {
         this.ipAddress = ipAddress;
         this.userDBModel = userDBModel;
         this.startTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "clientId:" + clientId +
+                ", uniqueId:'" + uniqueId + '\'' +
+                ", dbId:" + dbId +
+                ", nickname:'" + nickname + '\'' +
+                ", isAdmin:" + isAdmin +
+                ", serverGroupIds:" + Arrays.toString(serverGroupIds) +
+                ", currentChannelId:" + currentChannelId +
+                ", ipAddress:'" + ipAddress + '\'' +
+                ", startTime:" + startTime +
+                ", endTime:" + endTime +
+                '}';
+    }
+
+    public JsonObject toJsonObject(){
+        JsonObject obj = new JsonObject();
+
+        obj.addProperty("clientId", this.getClientId());
+        obj.addProperty("uniqueId", this.getUniqueId());
+        obj.addProperty("dbId", this.getDbId());
+        obj.addProperty("nickname", this.getNickname());
+        obj.addProperty("isAdmin", this.isAdmin());
+        obj.add("serverGroupIds", new Gson().toJsonTree(this.getServerGroupIds()));
+        obj.addProperty("currentChannelId", this.getCurrentChannelId());
+        obj.addProperty("ipAddress", this.getIpAddress());
+
+        return obj;
     }
 
     public int getClientId() {

@@ -1,4 +1,5 @@
 import Database.Controller.DBController;
+import RestAPI.WebServer;
 import UserManagement.User;
 import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
@@ -16,10 +17,13 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static spark.Spark.stop;
+
 public class Main {
     public static void main(String[] args) {
         DBController dbController = new DBController();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
+
 
         Logger logger = LoggerFactory.getLogger(Main.class);
         final BotConfiguration botConfiguration = BotConfiguration.loadAndGetConfig();
@@ -32,6 +36,8 @@ public class Main {
         ts3Query.connect();
 
         final TS3Api ts3Api = ts3Query.getApi();
+
+        WebServer.startWebserver(ts3Api);
 
         final UserManager userManager = UserManager.getInstance();
         userManager.setAdminGroupIds(botConfiguration.getAdminGroupIds());
@@ -113,6 +119,7 @@ public class Main {
             logger.info("Shutting Down");
             executorService.shutdown();
             ts3Query.exit();
+            stop(); //Stops the web server
         });
         Runtime.getRuntime().addShutdownHook(shutdownListener);
     }
