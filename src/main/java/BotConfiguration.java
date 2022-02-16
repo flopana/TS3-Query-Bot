@@ -12,6 +12,7 @@ public class BotConfiguration {
     private String queryUsername;
     private String queryPassword;
     private String serverIp;
+    private String apiKey;
     private int virtualServerId;
     private int[] adminGroupIds;
     private Function[] functions;
@@ -34,11 +35,12 @@ public class BotConfiguration {
         }
     }
 
-    public BotConfiguration(String botName, String queryUsername, String queryPassword, String serverIp, int virtualServerId, int[] adminGroupIds, Function[] functions) {
+    public BotConfiguration(String botName, String queryUsername, String queryPassword, String serverIp, String apiKey, int virtualServerId, int[] adminGroupIds, Function[] functions) {
         this.botName = botName;
         this.queryUsername = queryUsername;
         this.queryPassword = queryPassword;
         this.serverIp = serverIp;
+        this.apiKey = apiKey;
         this.virtualServerId = virtualServerId;
         this.adminGroupIds = adminGroupIds;
         this.functions = functions;
@@ -88,6 +90,14 @@ public class BotConfiguration {
 
     public void setServerIp(String serverIp) {
         this.serverIp = serverIp;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     public int getVirtualServerId() {

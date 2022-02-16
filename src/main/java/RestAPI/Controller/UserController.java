@@ -12,7 +12,6 @@ public class UserController {
     public static Route getUsers = new Route() {
         @Override
         public Object handle(Request request, Response response) throws Exception {
-            response.type("application/json");
             UserManager userManager = UserManager.getInstance();
             JsonArray userArray = new JsonArray();
 
@@ -27,7 +26,6 @@ public class UserController {
     public static Route getUser = new Route() {
         @Override
         public Object handle(Request request, Response response) throws Exception {
-            response.type("application/json");
             UserManager userManager = UserManager.getInstance();
 
             User user = userManager.getUser(Integer.parseInt(request.params(":clientId")));

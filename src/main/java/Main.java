@@ -24,7 +24,6 @@ public class Main {
         DBController dbController = new DBController();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-
         Logger logger = LoggerFactory.getLogger(Main.class);
         final BotConfiguration botConfiguration = BotConfiguration.loadAndGetConfig();
 
@@ -37,7 +36,11 @@ public class Main {
 
         final TS3Api ts3Api = ts3Query.getApi();
 
-        WebServer.startWebserver(ts3Api);
+        if (botConfiguration.getApiKey().equals("")) {
+            logger.warn("The apiKey is not configured properly, the Bot will function as normal but the API won't work.");
+        }else {
+            WebServer.startWebserver(ts3Api, botConfiguration.getApiKey());
+        }
 
         final UserManager userManager = UserManager.getInstance();
         userManager.setAdminGroupIds(botConfiguration.getAdminGroupIds());

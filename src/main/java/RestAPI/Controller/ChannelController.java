@@ -15,7 +15,6 @@ public class ChannelController {
     public static Route getChannels = new Route() {
         @Override
         public Object handle(Request request, Response response) throws Exception {
-            response.type("application/json");
             JsonArray channelArray = new JsonArray();
             TS3Api ts3Api = WebServer.getTs3Api();
             ts3Api.getChannelInfo(2);
