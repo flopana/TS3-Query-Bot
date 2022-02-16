@@ -1,5 +1,6 @@
-package RestAPI;
+package RestAPI.Controller;
 
+import RestAPI.WebServer;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Channel;
 import com.google.gson.JsonArray;
@@ -11,7 +12,7 @@ import spark.Route;
 import java.util.List;
 
 public class ChannelController {
-    static Route getChannels = new Route() {
+    public static Route getChannels = new Route() {
         @Override
         public Object handle(Request request, Response response) throws Exception {
             response.type("application/json");

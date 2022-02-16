@@ -1,4 +1,4 @@
-package RestAPI;
+package RestAPI.Controller;
 
 import UserManagement.User;
 import UserManagement.UserManager;
@@ -9,7 +9,7 @@ import spark.Route;
 
 public class UserController {
 
-    static Route getUsers = new Route() {
+    public static Route getUsers = new Route() {
         @Override
         public Object handle(Request request, Response response) throws Exception {
             response.type("application/json");
@@ -24,7 +24,7 @@ public class UserController {
         }
     };
 
-    static Route getUser = new Route() {
+    public static Route getUser = new Route() {
         @Override
         public Object handle(Request request, Response response) throws Exception {
             response.type("application/json");

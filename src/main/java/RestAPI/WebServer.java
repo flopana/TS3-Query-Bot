@@ -1,5 +1,7 @@
 package RestAPI;
 
+import RestAPI.Controller.ChannelController;
+import RestAPI.Controller.UserController;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 
 import static spark.Spark.*;
