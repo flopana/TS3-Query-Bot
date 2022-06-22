@@ -122,6 +122,11 @@ public class User {
         this.ipAddress = ipAddress;
     }
 
+    /**
+     * Returns the time in ms the user has stayed on the server.
+     *
+     * @return long
+     */
     public long getTimeStayed() {
         return System.currentTimeMillis() - joinTime;
     }
