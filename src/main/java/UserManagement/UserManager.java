@@ -1,5 +1,6 @@
 package UserManagement;
 
+import Database.DB;
 import Interfaces.IObservable;
 import Interfaces.IObserver;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
@@ -32,6 +33,7 @@ public class UserManager implements IObservable {
     public void addUser(User user) {
         lastUserJoined = user;
         userMap.put(user.getClientId(), user);
+        DB.getInstance().addUserIfNotExists(user);
         update();
     }
 
@@ -84,6 +86,8 @@ public class UserManager implements IObservable {
         return this;
     }
 
+    // TODO maybe make this method private
+    // This method is called when a user joins or leaves the server
     public void update(){
         for(IObserver observer : observers){
             observer.update();
@@ -110,6 +114,7 @@ public class UserManager implements IObservable {
     }
 
     public void removeUser(int clientId) {
+        DB.getInstance().updateTimeOnlineSum(userMap.get(clientId));
         logger.debug("User Disconnected");
         userMap.remove(clientId);
         update();

@@ -1,3 +1,4 @@
+import Database.DB;
 import RestAPI.WebServer;
 import UserManagement.User;
 import UserManagement.UserManager;
@@ -20,6 +21,7 @@ import static spark.Spark.stop;
 
 public class Main {
     public static void main(String[] args) {
+        DB.getInstance(); // Call getInstance() to initialize the database
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         Logger logger = LoggerFactory.getLogger(Main.class);
@@ -45,6 +47,8 @@ public class Main {
 
         ts3Api.login(botConfiguration.getQueryUsername(), botConfiguration.getQueryPassword());
         ts3Api.selectVirtualServerById(botConfiguration.getVirtualServerId());
+
+        DB.setTs3Api(ts3Api);
 
         logger.info("Adding every currently connected Client to the UserManager");
         List<Client> clients = ts3Api.getClients();
@@ -77,13 +81,13 @@ public class Main {
 
         logger.info("Finished registering everything");
 
-        //Only for development
-//        for (Client client : clients){
-//            if (client.getDatabaseId() == 5 | client.getDatabaseId() == 434){
-//                ts3Api.sendPrivateMessage(client.getId(), "hi");
-//                break;
-//            }
-//        }
+//        Only for development
+        for (Client client : clients){
+            if (client.getId() == 125){
+                ts3Api.sendPrivateMessage(client.getId(), "hi");
+                break;
+            }
+        }
 
         ts3Api.registerAllEvents();
         ts3Api.addTS3Listeners(new TS3EventAdapter() {
