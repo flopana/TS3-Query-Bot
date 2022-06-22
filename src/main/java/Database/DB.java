@@ -1,16 +1,12 @@
 package Database;
 
 import UserManagement.User;
-import UserManagement.UserManager;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DB {
     private static final DB db = new DB();
@@ -139,5 +135,27 @@ public class DB {
         thread.setDaemon(true);
         thread.start();
         logger.info("Started afk check for Database stats");
+    }
+
+    public Long[] getOnlineTimeForUser(User user){
+        Long[] times = new Long[2];
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(String.format("""
+                        select timeOnlineSum, timeOnlineSumWithoutAfk
+                        from users
+                        where dbId = %d
+                    """, user.getDbId()));
+            while (resultSet.next()) {
+                times[0] = resultSet.getLong("timeOnlineSum");
+                times[1] = resultSet.getLong("timeOnlineSumWithoutAfk");
+            }
+        } catch (SQLException e) {
+            logger.error("Error while getting online time for user", e);
+        }
+
+        return times;
     }
 }

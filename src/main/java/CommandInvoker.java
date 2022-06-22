@@ -36,8 +36,8 @@ public class CommandInvoker {
         commandMap.put("!msgall", new MessageAllCommand());
 
         commandMap.put("!rebuildUserManager", new RebuildUserManagerCommand());
+        commandMap.put("!onlineTime", new OnlineTimeCommand());
         commandMap.put("!resourceusage", new ResourceUsageCommand());
-
         commandMap.put("!genCryptSafeRandomString", new GenerateCryptoSafeRandomStringCommand());
     }
 

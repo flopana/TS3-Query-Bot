@@ -28,7 +28,7 @@ public class BothelpCommand implements ICommand {
                 
                 Misc:
                 !rebuildUserManager - Rebuilds the userManager HashMap
-                !showwastedtime - Prompts the user with his wasted time
+                !onlineTime - Prints the online time of the user
                 !resourceusage - Prints resources used by the Bot
                 !genCryptSafeRandomString <int: length> Generate a cryptographically safe random String
                 """);
