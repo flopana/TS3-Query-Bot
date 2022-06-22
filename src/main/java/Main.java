@@ -1,4 +1,3 @@
-import Database.Controller.DBController;
 import RestAPI.WebServer;
 import UserManagement.User;
 import UserManagement.UserManager;
@@ -21,7 +20,6 @@ import static spark.Spark.stop;
 
 public class Main {
     public static void main(String[] args) {
-        DBController dbController = new DBController();
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         Logger logger = LoggerFactory.getLogger(Main.class);

@@ -1,11 +1,9 @@
 package UserManagement;
 
-import Database.Model.UserDBModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.Arrays;
-import java.util.Timer;
 
 public class User {
     private int clientId;
@@ -18,9 +16,7 @@ public class User {
     private String ipAddress;
     private long startTime, endTime;
 
-    private UserDBModel userDBModel;
-
-    public User(int clientId, String uniqueId, int dbId, String nickname, boolean isAdmin, int[] serverGroupIds, int currentChannelId, String ipAddress, UserDBModel userDBModel) {
+    public User(int clientId, String uniqueId, int dbId, String nickname, boolean isAdmin, int[] serverGroupIds, int currentChannelId, String ipAddress) {
         this.clientId = clientId;
         this.uniqueId = uniqueId;
         this.dbId = dbId;
@@ -29,7 +25,6 @@ public class User {
         this.serverGroupIds = serverGroupIds;
         this.currentChannelId = currentChannelId;
         this.ipAddress = ipAddress;
-        this.userDBModel = userDBModel;
         this.startTime = System.currentTimeMillis();
     }
 
@@ -127,8 +122,6 @@ public class User {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
-
-    public UserDBModel getUserDBModel() { return userDBModel;}
 
     public long getTimeStayed() {
         endTime = System.currentTimeMillis();

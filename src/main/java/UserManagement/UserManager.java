@@ -1,7 +1,5 @@
 package UserManagement;
 
-import Database.Controller.DBController;
-import Database.Model.UserDBModel;
 import Interfaces.IObservable;
 import Interfaces.IObserver;
 import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
@@ -23,10 +21,7 @@ public class UserManager implements IObservable {
     private User lastUserJoined;
     private Logger logger;
 
-    private final DBController dbController;
-
     public UserManager() {
-        dbController = new DBController();
         logger = LoggerFactory.getLogger(UserManager.class);
     }
 
@@ -43,30 +38,30 @@ public class UserManager implements IObservable {
     public void addUser(ClientJoinEvent e, Client client, int[] adminGroupIds) {
         boolean isAdmin = isInOnOfTheGroups(client, adminGroupIds);
         User user = new User(
-                e.getClientId(),
-                client.getUniqueIdentifier(),
-                e.getClientDatabaseId(),
-                e.getClientNickname(),
-                isAdmin,
-                client.getServerGroups(),
-                client.getChannelId(),
-                client.getIp(),
-                new UserDBModel(client.getUniqueIdentifier(), e.getClientNickname(), dbController.getConn()));
+            e.getClientId(),
+            client.getUniqueIdentifier(),
+            e.getClientDatabaseId(),
+            e.getClientNickname(),
+            isAdmin,
+            client.getServerGroups(),
+            client.getChannelId(),
+            client.getIp()
+        );
         addUser(user);
     }
 
     public void addUser(Client client, int[] adminGroupIds) {
         boolean isAdmin = isInOnOfTheGroups(client, adminGroupIds);
         User user = new User(
-                client.getId(),
-                client.getUniqueIdentifier(),
-                client.getDatabaseId(),
-                client.getNickname(),
-                isAdmin,
-                client.getServerGroups(),
-                client.getChannelId(),
-                client.getIp(),
-                new UserDBModel(client.getUniqueIdentifier(), client.getNickname(), dbController.getConn()));
+            client.getId(),
+            client.getUniqueIdentifier(),
+            client.getDatabaseId(),
+            client.getNickname(),
+            isAdmin,
+            client.getServerGroups(),
+            client.getChannelId(),
+            client.getIp()
+        );
         addUser(user);
     }
 
@@ -115,9 +110,7 @@ public class UserManager implements IObservable {
     }
 
     public void removeUser(int clientId) {
-        User toRemove = userMap.get(clientId);
         logger.debug("User Disconnected");
-        toRemove.getUserDBModel().UpdateTimeOnline(toRemove.getTimeStayed());
         userMap.remove(clientId);
         update();
     }
