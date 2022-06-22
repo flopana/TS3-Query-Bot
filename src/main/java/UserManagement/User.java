@@ -14,7 +14,7 @@ public class User {
     private int[] serverGroupIds;
     private int currentChannelId;
     private String ipAddress;
-    private long startTime, endTime;
+    private final long joinTime;
 
     public User(int clientId, String uniqueId, int dbId, String nickname, boolean isAdmin, int[] serverGroupIds, int currentChannelId, String ipAddress) {
         this.clientId = clientId;
@@ -25,7 +25,7 @@ public class User {
         this.serverGroupIds = serverGroupIds;
         this.currentChannelId = currentChannelId;
         this.ipAddress = ipAddress;
-        this.startTime = System.currentTimeMillis();
+        this.joinTime = System.currentTimeMillis();
     }
 
     @Override
@@ -39,8 +39,7 @@ public class User {
                 ", serverGroupIds:" + Arrays.toString(serverGroupIds) +
                 ", currentChannelId:" + currentChannelId +
                 ", ipAddress:'" + ipAddress + '\'' +
-                ", startTime:" + startTime +
-                ", endTime:" + endTime +
+                ", startTime:" + joinTime +
                 '}';
     }
 
@@ -124,9 +123,6 @@ public class User {
     }
 
     public long getTimeStayed() {
-        endTime = System.currentTimeMillis();
-        long tempTime = startTime;
-        startTime = System.currentTimeMillis();
-        return (endTime - startTime);
+        return System.currentTimeMillis() - joinTime;
     }
 }
