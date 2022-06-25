@@ -54,6 +54,7 @@ public class DB {
                 alreadyReceivedAsa = resultSet.getDouble("alreadyReceivedAsa");
                 timeOnlineSumWithoutAfk = resultSet.getLong("timeOnlineSumWithoutAfk");
             }
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while querying for alreadyReceivedAsa, timeOnlineWithoutAfk", e);
         }
@@ -94,6 +95,7 @@ public class DB {
                             nickname = '%s'
                         where dbId = %d
                     """, user.getNickname(), user.getDbId()));
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while inserting a new user", e);
             logger.error("User: {}", user);
@@ -116,6 +118,7 @@ public class DB {
                             timeOnlineSum = timeOnlineSum + %d
                         where dbId = %d
                     """, timeOnline, user.getDbId()));
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while updating time online sum", e);
         }
@@ -141,6 +144,7 @@ public class DB {
                                     """, 5, client.getDatabaseId())); // Add 5 seconds to the time online sum because the loop pauses for 5 seconds
                         }
                     }
+                    connection.close();
                 } catch (SQLException e) {
                     logger.error("Error while updating time online sum without afk", e);
                 }
@@ -171,6 +175,7 @@ public class DB {
                 times[0] = resultSet.getLong("timeOnlineSum");
                 times[1] = resultSet.getLong("timeOnlineSumWithoutAfk");
             }
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while getting online time for user", e);
         }
@@ -188,6 +193,7 @@ public class DB {
                         algorandWalletAddr = '%s'
                     where dbId = %d
                 """, wallet, user.getDbId()));
+            connection.close();
             return true;
         } catch (SQLException e) {
             logger.error("Error while registering algorand wallet", e);
