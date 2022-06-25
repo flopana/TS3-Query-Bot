@@ -4,6 +4,8 @@ public class AlgorandConfiguration {
     private final long assetId;
     private final String assetName;
     private final String assetUnitName;
+
+    private final short decimalPlaces;
     private final double amountToEarnPerHour;
     private final int[] serverGroupIdsThatCanEarn;
     private final String mnemonicSeedOfReserveAccount;
@@ -13,10 +15,11 @@ public class AlgorandConfiguration {
     private final int ALGOD_API_PORT;
     private final AlgorandAsaShopItem[] items;
 
-    public AlgorandConfiguration(long assetId, String assetName, String assetUnitName, double amountToEarnPerHour, int[] serverGroupIdsThatCanEarn, String mnemonicSeedOfReserveAccount, String ALGOD_API_ADDR, String ALGOD_API_TOKEN, String ALGOD_API_TOKEN_KEY, int ALGOD_API_PORT, AlgorandAsaShopItem[] items) {
+    public AlgorandConfiguration(long assetId, String assetName, String assetUnitName, short decimalPlaces, double amountToEarnPerHour, int[] serverGroupIdsThatCanEarn, String mnemonicSeedOfReserveAccount, String ALGOD_API_ADDR, String ALGOD_API_TOKEN, String ALGOD_API_TOKEN_KEY, int ALGOD_API_PORT, AlgorandAsaShopItem[] items) {
         this.assetId = assetId;
         this.assetName = assetName;
         this.assetUnitName = assetUnitName;
+        this.decimalPlaces = decimalPlaces;
         this.amountToEarnPerHour = amountToEarnPerHour;
         this.serverGroupIdsThatCanEarn = serverGroupIdsThatCanEarn;
         this.mnemonicSeedOfReserveAccount = mnemonicSeedOfReserveAccount;
@@ -37,6 +40,10 @@ public class AlgorandConfiguration {
 
     public String getAssetUnitName() {
         return assetUnitName;
+    }
+
+    public short getDecimalPlaces() {
+        return decimalPlaces;
     }
 
     public double getAmountToEarnPerHour() {

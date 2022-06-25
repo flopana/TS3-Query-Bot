@@ -2,6 +2,7 @@
   "assetId": 123456789123,
   "assetName": "TEST COIN",
   "assetUnitName": "TEST",
+  "assetDecimalPlaces": 2,
   "amountToEarnPerHour": 1.23,
   "serverGroupIdsThatCanEarn": [13],
   "mnemonicSeedOfReserveAccount": "hello world this has to be without commas",
