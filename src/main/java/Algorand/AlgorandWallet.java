@@ -68,8 +68,9 @@ public class AlgorandWallet {
         Address algoAddress;
         try {
             algoAddress = new Address(address);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            logger.info("Invalid address: " + address);
+            return false;
         }
         try {
             var accountInfo = algodClient.AccountInformation(algoAddress).execute().body();
