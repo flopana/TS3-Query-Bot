@@ -33,3 +33,5 @@ target/
 tsBot.db
 
 query_bot.iml
+
+configs/algorandAsa.json
