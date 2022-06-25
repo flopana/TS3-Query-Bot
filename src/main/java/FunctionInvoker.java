@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,6 +24,7 @@ public class FunctionInvoker {
         functionMap.put("idleCheck", new IdleCheck());
         functionMap.put("channelWatcher", new ChannelWatcher());
         functionMap.put("badNameChecker", new BadNameChecker());
+        functionMap.put("algorandAsa", new AlgorandAsa());
     }
 
     public void registerFunctions() {
@@ -39,7 +39,7 @@ public class FunctionInvoker {
                     logger.info("Registering function " + function.getType());
                     functionMap.get(function.getType()).register(ts3Api, function.getConfigPath());
                 } catch (NullPointerException e) {
-                    logger.warn("Invalid function type: " + function.getType());
+                    logger.error("Invalid function type: " + function.getType());
                 }
             });
         }
