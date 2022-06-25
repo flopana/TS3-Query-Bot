@@ -1,0 +1,26 @@
+{
+  "assetId": 123456789123,
+  "assetName": "TEST COIN",
+  "assetUnitName": "TEST",
+  "amountToEarnPerHour": 1.23,
+  "serverGroupIdsThatCanEarn": [13],
+  "mnemonicSeedOfReserveAccount": "hello world this has to be without commas",
+  "ALGOD_API_ADDR": "",
+  "ALGOD_API_TOKEN": "",
+  "ALGOD_API_TOKEN_KEY": "X-API-Key",
+  "ALGOD_API_PORT": 443,
+  "items": [
+    {
+      "name": "Personal servergroup (7 Days)",
+      "cost": 200
+    },
+    {
+      "name": "Personal servergroup (Permanent)",
+      "cost": 500
+    },
+    {
+      "name": "Give another user a shit group of your choice (7 Days)",
+      "cost": 200
+    }
+  ]
+}
