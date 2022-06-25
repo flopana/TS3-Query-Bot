@@ -40,7 +40,7 @@ public class RegisterAlgorandWalletCommand implements ICommand {
             for (int j = 0; j < config.getServerGroupIdsThatCanEarn().length; j++) {
                 if (user.getServerGroupIds()[i] == config.getServerGroupIdsThatCanEarn()[j]) {
                     if (algorandWallet.isValidAddressAndIsSubscribedToAsa(wallet, config.getAssetId())) {
-                        DB.getInstance().registerAlgorandWallet(user.getDbId(), wallet);
+                        DB.getInstance().registerAlgorandWallet(user, wallet);
                         ts3Api.sendPrivateMessage(e.getInvokerId(), "Successfully registered Algorand wallet: " + wallet);
                     }else {
                         ts3Api.sendPrivateMessage(e.getInvokerId(), "Failed to register Algorand wallet: " + wallet);

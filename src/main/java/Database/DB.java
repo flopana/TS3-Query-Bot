@@ -159,7 +159,7 @@ public class DB {
         return times;
     }
 
-    public boolean registerAlgorandWallet(int dbId, String wallet) {
+    public boolean registerAlgorandWallet(User user, String wallet) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
             Statement statement = connection.createStatement();
@@ -168,7 +168,7 @@ public class DB {
                     set
                         algorandWalletAddr = '%s'
                     where dbId = %d
-                """, wallet, dbId));
+                """, wallet, user.getDbId()));
             return true;
         } catch (SQLException e) {
             logger.error("Error while registering algorand wallet", e);
