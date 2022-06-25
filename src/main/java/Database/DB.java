@@ -1,5 +1,6 @@
 package Database;
 
+import Functions.AlgorandAsa;
 import UserManagement.User;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
@@ -40,6 +41,24 @@ public class DB {
     public static void setTs3Api(TS3Api ts3Api) {
         db.ts3Api = ts3Api;
         db.startAfkCheckThread();
+    }
+
+    public double getOutstandingASA(User user) {
+        double alreadyReceivedAsa = 0;
+        long timeOnlineSumWithoutAfk = 0;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select alreadyReceivedAsa, timeOnlineSumWithoutAfk from users where dbId = " + user.getDbId());
+            if (resultSet.next()) {
+                alreadyReceivedAsa = resultSet.getDouble("alreadyReceivedAsa");
+                timeOnlineSumWithoutAfk = resultSet.getLong("timeOnlineSumWithoutAfk");
+            }
+        } catch (SQLException e) {
+            logger.error("Error while querying for alreadyReceivedAsa, timeOnlineWithoutAfk", e);
+        }
+
+        return (timeOnlineSumWithoutAfk/60.0/60.0 * AlgorandAsa.getConfig().getAmountToEarnPerHour()) - alreadyReceivedAsa;
     }
 
     /**

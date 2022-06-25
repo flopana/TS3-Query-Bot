@@ -33,6 +33,8 @@ public class CommandInvoker {
         commandsThatDontNeedAdminPrivileges.add("!registerAlgoWallet");
         commandMap.put("!onlineTime", new OnlineTimeCommand());
         commandsThatDontNeedAdminPrivileges.add("!onlineTime");
+        commandMap.put("!getOutstandingASA", new GetOutstandingASACommand());
+        commandsThatDontNeedAdminPrivileges.add("!getOutstandingASA");
 
         commandMap.put("!setnickname", new SetNicknameCommand());
         commandMap.put("!searchnickname", new SearchNicknameCommand());
