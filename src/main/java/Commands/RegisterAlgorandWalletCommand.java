@@ -21,17 +21,6 @@ public class RegisterAlgorandWalletCommand implements ICommand {
         User user = UserManager.getInstance().getUser(e.getInvokerId());
         AlgorandConfiguration config = AlgorandAsa.getConfig();
         Logger logger = LoggerFactory.getLogger(RegisterAlgorandWalletCommand.class);
-        AlgorandWallet algorandWallet = null;
-        try {
-            algorandWallet = new AlgorandWallet(config.getMnemonicSeedOfReserveAccount(),
-                                                config.getALGOD_API_ADDR(),
-                                                config.getALGOD_API_PORT(),
-                                                config.getALGOD_API_TOKEN_KEY(),
-                                                config.getALGOD_API_TOKEN());
-        } catch (Exception ex) {
-            System.out.println("Error while creating AlgorandWallet: " + ex.getMessage());
-            logger.error("Error while creating Algorand wallet", ex);
-        }
 
         String wallet = e.getMessage().split(" ")[1];
 
@@ -39,7 +28,7 @@ public class RegisterAlgorandWalletCommand implements ICommand {
         for (int i = 0; i < user.getServerGroupIds().length; i++) {
             for (int j = 0; j < config.getServerGroupIdsThatCanEarn().length; j++) {
                 if (user.getServerGroupIds()[i] == config.getServerGroupIdsThatCanEarn()[j]) {
-                    if (algorandWallet.isValidAddressAndIsSubscribedToAsa(wallet, config.getAssetId())) {
+                    if (AlgorandAsa.getAlgorandWallet().isValidAddressAndIsSubscribedToAsa(wallet, config.getAssetId())) {
                         DB.getInstance().registerAlgorandWallet(user, wallet);
                         ts3Api.sendPrivateMessage(e.getInvokerId(), "Successfully registered Algorand wallet: " + wallet);
                     }else {
