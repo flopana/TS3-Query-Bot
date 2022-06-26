@@ -20,6 +20,7 @@ public class BothelpCommand implements ICommand {
                 !registerAlgoWallet <string> - Registers an Algorand wallet for the user
                 !onlineTime - Prints the online time of the user
                 !getOutstandingASA - Prints the outstanding ASA of the user
+                !withdrawOutstandingASA - Withdraws the outstanding ASA of the user
                 
                 ### Admin Commands ###
                 !setnickname <string> - Sets the botname

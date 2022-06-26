@@ -35,6 +35,8 @@ public class CommandInvoker {
         commandsThatDontNeedAdminPrivileges.add("!onlineTime");
         commandMap.put("!getOutstandingASA", new GetOutstandingASACommand());
         commandsThatDontNeedAdminPrivileges.add("!getOutstandingASA");
+        commandMap.put("!withdrawOutstandingASA", new WithdrawOutstandingAsaCommand());
+        commandsThatDontNeedAdminPrivileges.add("!withdrawOutstandingASA");
 
         commandMap.put("!setnickname", new SetNicknameCommand());
         commandMap.put("!searchnickname", new SearchNicknameCommand());
