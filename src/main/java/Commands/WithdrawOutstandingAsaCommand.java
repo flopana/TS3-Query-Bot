@@ -39,6 +39,7 @@ public class WithdrawOutstandingAsaCommand implements ICommand{
             db.addWithdrawal(user, amount, resp.body().txId, System.currentTimeMillis());
             ts3Api.sendPrivateMessage(e.getInvokerId(), "Withdrew " + outstandingAsa + " " +algorandConfiguration.getAssetUnitName()+ " and send it to your Algorand wallet.");
             ts3Api.sendPrivateMessage(e.getInvokerId(), "View the transaction here: https://algoexplorer.io/tx/"+resp.body().txId);
+            ts3Api.sendPrivateMessage(e.getInvokerId(), "This link will work in a couple of seconds!");
         } catch (Exception ex) {
             logger.error("Error while sending ASA: " + ex.getMessage());
             ts3Api.sendPrivateMessage(e.getInvokerId(), "Error while sending ASA: please contact the admin");
