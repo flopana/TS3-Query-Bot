@@ -133,8 +133,9 @@ public class DB {
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
                     for(Client client : ts3Api.getClients()) {
-                        // If client is afk for less than 30 minutes, don't count it
-                        if (client.getIdleTime() < 30 * 60 * 1000) {
+                        // TODO: Make this configurable
+                        // If client is afk for less than 5 minutes, don't count it
+                        if (client.getIdleTime() < 5 * 60 * 1000) {
                             Statement statement = connection.createStatement();
                             statement.executeUpdate(String.format("""
                                         update users
