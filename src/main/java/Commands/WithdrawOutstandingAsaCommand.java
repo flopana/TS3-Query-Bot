@@ -22,7 +22,7 @@ public class WithdrawOutstandingAsaCommand implements ICommand{
         String wallet = db.getAlgoWalletAddress(user);
         AlgorandConfiguration algorandConfiguration = AlgorandAsa.getConfig();
         BigDecimal outstandingAsa = BigDecimal.valueOf(DB.getInstance().getOutstandingASA(user)).setScale(algorandConfiguration.getAssetDecimalPlaces(), RoundingMode.HALF_EVEN);
-        if (wallet == null) {
+        if (wallet == null || !AlgorandAsa.getAlgorandWallet().isValidAddressAndIsSubscribedToAsa(wallet, algorandConfiguration.getAssetId())) {
             ts3Api.sendPrivateMessage(e.getInvokerId(), "You have no Algorand wallet registered. !bothelp");
             return;
         }
