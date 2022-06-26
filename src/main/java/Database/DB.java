@@ -152,6 +152,7 @@ public class DB {
                                         set
                                             timeOnlineSumWithoutAfk = timeOnlineSumWithoutAfk + %d
                                         where dbId = %d
+                                        and algorandWalletAddr != 'null'
                                     """, 5, client.getDatabaseId())); // Add 5 seconds to the time online sum because the loop pauses for 5 seconds
                         }
                     }
