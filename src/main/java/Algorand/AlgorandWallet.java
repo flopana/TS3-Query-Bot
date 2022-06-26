@@ -59,6 +59,11 @@ public class AlgorandWallet {
                 .build();
         SignedTransaction stxn = account.signTransaction(txn);
         var postTxResponse = algodClient.RawTransaction().rawtxn(Encoder.encodeToMsgPack(stxn)).execute();
+        if (postTxResponse.code() != 200) {
+            logger.error("Error while sending stxn to node: " + postTxResponse.body().toString());
+            logger.error("Error code: " + postTxResponse.code());
+            throw new Exception(postTxResponse.message());
+        }
         logger.info("Send transaction with id: " + postTxResponse.body().txId);
 
         return postTxResponse;
