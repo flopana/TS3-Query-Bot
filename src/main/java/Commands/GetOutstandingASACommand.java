@@ -14,7 +14,7 @@ public class GetOutstandingASACommand implements ICommand{
     @Override
     public void execute(TextMessageEvent e, TS3Api ts3Api) {
         User user = UserManager.getInstance().getUser(e.getInvokerId());
-        BigDecimal outstandingAsa = BigDecimal.valueOf(DB.getInstance().getOutstandingASA(user)).setScale(2, RoundingMode.HALF_EVEN);
-        ts3Api.sendPrivateMessage(e.getInvokerId(), "You have " + outstandingAsa + " " + AlgorandAsa.getConfig().getAssetUnitName() +" left for withdrawal.");
+        BigDecimal outstandingAsa = BigDecimal.valueOf(DB.getInstance().getOutstandingASA(user)).setScale(AlgorandAsa.getConfig().getAssetDecimalPlaces(), RoundingMode.HALF_EVEN);
+        ts3Api.sendPrivateMessage(e.getInvokerId(), "You have " + outstandingAsa.toString() + " " + AlgorandAsa.getConfig().getAssetUnitName() +" left for withdrawal.");
     }
 }

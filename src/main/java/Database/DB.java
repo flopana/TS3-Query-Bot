@@ -59,7 +59,7 @@ public class DB {
             logger.error("Error while querying for alreadyReceivedAsa, timeOnlineWithoutAfk", e);
         }
 
-        return (timeOnlineSumWithoutAfk/60.0/60.0 * AlgorandAsa.getConfig().getAmountToEarnPerHour()) - alreadyReceivedAsa;
+        return (timeOnlineSumWithoutAfk/60.0/60.0 * AlgorandAsa.getConfig().getAmountToEarnPerHour()) - alreadyReceivedAsa/(Math.pow(10, AlgorandAsa.getConfig().getAssetDecimalPlaces()));
     }
 
     /**
@@ -199,6 +199,42 @@ public class DB {
         } catch (SQLException e) {
             logger.error("Error while registering algorand wallet", e);
             return false;
+        }
+    }
+
+    public String getAlgoWalletAddress(User user) {
+        String wallet = null;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(String.format("""
+                        select algorandWalletAddr
+                        from users
+                        where dbId = %d
+                    """, user.getDbId()));
+            while (resultSet.next()) {
+                wallet = resultSet.getString("algorandWalletAddr");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("Error while getting algorand wallet address", e);
+        }
+        return wallet;
+    }
+
+    public void addAmountToAlreadyWithdrawnAsa(User user, long amount) {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(String.format("""
+                        update users
+                        set
+                            alreadyReceivedAsa = alreadyReceivedAsa + %d
+                        where dbId = %d
+                    """, amount, user.getDbId()));
+            connection.close();
+        }catch (Exception e){
+            logger.error("Error while adding amount to already withdrawn asa", e);
         }
     }
 }
