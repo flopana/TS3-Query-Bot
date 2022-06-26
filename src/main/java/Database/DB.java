@@ -1,5 +1,6 @@
 package Database;
 
+import Functions.AlgorandAsa;
 import UserManagement.User;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
@@ -17,7 +18,7 @@ public class DB {
         try {
             Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
             Statement statement = connection.createStatement();
-            statement.executeUpdate("""
+            statement.execute("""
                 create table if not exists users (
                     dbId integer primary key,
                     uuid text,
@@ -26,6 +27,16 @@ public class DB {
                     timeOnlineSum long,
                     timeOnlineSumWithoutAfk long,
                     alreadyReceivedAsa long
+                )
+            """);
+            statement.execute("""
+                create table if not exists withdrawals (
+                    id integer primary key autoincrement,
+                    userId integer NOT NULL,
+                    amount long NOT NULL,
+                    txId string NOT NULL,
+                    timestamp long NOT NULL,
+                    Foreign Key(userId) REFERENCES users(dbId)
                 )
             """);
         } catch (SQLException e) {
@@ -40,6 +51,25 @@ public class DB {
     public static void setTs3Api(TS3Api ts3Api) {
         db.ts3Api = ts3Api;
         db.startAfkCheckThread();
+    }
+
+    public double getOutstandingASA(User user) {
+        double alreadyReceivedAsa = 0;
+        long timeOnlineSumWithoutAfk = 0;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select alreadyReceivedAsa, timeOnlineSumWithoutAfk from users where dbId = " + user.getDbId());
+            if (resultSet.next()) {
+                alreadyReceivedAsa = resultSet.getDouble("alreadyReceivedAsa");
+                timeOnlineSumWithoutAfk = resultSet.getLong("timeOnlineSumWithoutAfk");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("Error while querying for alreadyReceivedAsa, timeOnlineWithoutAfk", e);
+        }
+
+        return (timeOnlineSumWithoutAfk/60.0/60.0 * AlgorandAsa.getConfig().getAmountToEarnPerHour()) - alreadyReceivedAsa/(Math.pow(10, AlgorandAsa.getConfig().getAssetDecimalPlaces()));
     }
 
     /**
@@ -75,6 +105,7 @@ public class DB {
                             nickname = '%s'
                         where dbId = %d
                     """, user.getNickname(), user.getDbId()));
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while inserting a new user", e);
             logger.error("User: {}", user);
@@ -97,6 +128,7 @@ public class DB {
                             timeOnlineSum = timeOnlineSum + %d
                         where dbId = %d
                     """, timeOnline, user.getDbId()));
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while updating time online sum", e);
         }
@@ -111,8 +143,9 @@ public class DB {
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
                     for(Client client : ts3Api.getClients()) {
-                        // If client is afk for less than 30 minutes, don't count it
-                        if (client.getIdleTime() < 30 * 60 * 1000) {
+                        // TODO: Make this configurable
+                        // If client is afk for less than 5 minutes, don't count it
+                        if (client.getIdleTime() < 5 * 60 * 1000) {
                             Statement statement = connection.createStatement();
                             statement.executeUpdate(String.format("""
                                         update users
@@ -122,6 +155,7 @@ public class DB {
                                     """, 5, client.getDatabaseId())); // Add 5 seconds to the time online sum because the loop pauses for 5 seconds
                         }
                     }
+                    connection.close();
                 } catch (SQLException e) {
                     logger.error("Error while updating time online sum without afk", e);
                 }
@@ -152,10 +186,88 @@ public class DB {
                 times[0] = resultSet.getLong("timeOnlineSum");
                 times[1] = resultSet.getLong("timeOnlineSumWithoutAfk");
             }
+            connection.close();
         } catch (SQLException e) {
             logger.error("Error while getting online time for user", e);
         }
 
         return times;
+    }
+
+    public boolean registerAlgorandWallet(User user, String wallet) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(String.format("""
+                    update users
+                    set
+                        algorandWalletAddr = '%s'
+                    where dbId = %d
+                """, wallet, user.getDbId()));
+            connection.close();
+            return true;
+        } catch (SQLException e) {
+            logger.error("Error while registering algorand wallet", e);
+            return false;
+        }
+    }
+
+    public String getAlgoWalletAddress(User user) {
+        String wallet = null;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(String.format("""
+                        select algorandWalletAddr
+                        from users
+                        where dbId = %d
+                    """, user.getDbId()));
+            while (resultSet.next()) {
+                wallet = resultSet.getString("algorandWalletAddr");
+            }
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("Error while getting algorand wallet address", e);
+        }
+        return wallet;
+    }
+
+    public void addAmountToAlreadyWithdrawnAsa(User user, long amount) {
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(String.format("""
+                        update users
+                        set
+                            alreadyReceivedAsa = alreadyReceivedAsa + %d
+                        where dbId = %d
+                    """, amount, user.getDbId()));
+            connection.close();
+        }catch (Exception e){
+            logger.error("Error while adding amount to already withdrawn asa", e);
+        }
+    }
+
+    public void addWithdrawal(User user, long amount, String txId, long currentTimeMillis) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(String.format("""
+                        insert into withdrawals (
+                            userId,
+                            amount,
+                            txId,
+                            timestamp
+                        ) values (
+                            %d,
+                            %d,
+                            '%s',
+                            %d
+                        )
+                    """, user.getDbId(), amount, txId, currentTimeMillis));
+            connection.close();
+        } catch (Exception e) {
+            logger.error("Error while adding withdrawal", e);
+        }
     }
 }
