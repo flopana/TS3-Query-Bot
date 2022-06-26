@@ -18,7 +18,7 @@ public class DB {
         try {
             Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
             Statement statement = connection.createStatement();
-            statement.executeUpdate("""
+            statement.execute("""
                 create table if not exists users (
                     dbId integer primary key,
                     uuid text,
@@ -27,6 +27,16 @@ public class DB {
                     timeOnlineSum long,
                     timeOnlineSumWithoutAfk long,
                     alreadyReceivedAsa long
+                )
+            """);
+            statement.execute("""
+                create table if not exists withdrawals (
+                    id integer primary key autoincrement,
+                    userId integer NOT NULL,
+                    amount long NOT NULL,
+                    txId string NOT NULL,
+                    timestamp long NOT NULL,
+                    Foreign Key(userId) REFERENCES users(dbId)
                 )
             """);
         } catch (SQLException e) {
@@ -235,6 +245,29 @@ public class DB {
             connection.close();
         }catch (Exception e){
             logger.error("Error while adding amount to already withdrawn asa", e);
+        }
+    }
+
+    public void addWithdrawal(User user, long amount, String txId, long currentTimeMillis) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:tsBot.db");
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(String.format("""
+                        insert into withdrawals (
+                            userId,
+                            amount,
+                            txId,
+                            timestamp
+                        ) values (
+                            %d,
+                            %d,
+                            '%s',
+                            %d
+                        )
+                    """, user.getDbId(), amount, txId, currentTimeMillis));
+            connection.close();
+        } catch (Exception e) {
+            logger.error("Error while adding withdrawal", e);
         }
     }
 }
