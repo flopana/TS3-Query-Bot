@@ -89,7 +89,7 @@ public class AlgorandWallet {
             throw new RuntimeException(e);
         }
 
-        return true;
+        return false;
     }
 
 }
