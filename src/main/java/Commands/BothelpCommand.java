@@ -24,7 +24,7 @@ public class BothelpCommand implements ICommand {
                 
                 ### Admin Commands ###
                 !setnickname <string> - Sets the botname
-                !searchnickname <regex> - Searches for a client example !searchnickname .*lisa.*
+                !searchnickname <regex> - Searches for a client example !searchnickname .*mustermann.*
                                 
                 !listclients - Prints a list of currently connected clients
                 !listchannels - Prints a list of channels on this server
