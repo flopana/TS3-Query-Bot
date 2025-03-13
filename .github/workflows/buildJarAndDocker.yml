@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
-      - uses: joschi/setup-jdk@v2
+        uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
-          java-version: '17' # The OpenJDK version to make available on the path
-          architecture: 'x64' # defaults to 'x64'
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: 'x64'
       - name: Build with Maven
         run: |
           mvn package
@@ -23,50 +24,52 @@ jobs:
           mv /home/runner/work/TS3-Query-Bot/TS3-Query-Bot/configs/*.json /home/runner/configs
       - name: 'Upload Artifact Nightly'
         if: ${{ github.ref == 'refs/heads/develop' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ts3-query-bot-nightly
           path: |
             /home/runner/ts3_query_bot.jar
             /home/runner/configs/
           retention-days: 30
+
       - name: 'Upload Artifact Stable'
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ts3-query-bot-stable
           path: |
             /home/runner/ts3_query_bot.jar
             /home/runner/configs/
           retention-days: 30
+
   buildDocker:
     needs: buildJar
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Get Artifact from BuildJar (Develop)
         if: ${{ github.ref == 'refs/heads/develop' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: ts3-query-bot-nightly
 
       - name: Get Artifact from BuildJar (Master)
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: ts3-query-bot-stable
 
       - name: Login to Dockerhub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image (Develop)
         if: ${{ github.ref == 'refs/heads/develop' }}
-        uses: docker/build-push-action@v2.6.1
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
@@ -74,7 +77,7 @@ jobs:
 
       - name: Build and push Docker image (Master)
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: docker/build-push-action@v2.6.1
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
